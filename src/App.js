@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useWindowWidth } from "./hooks/useWindowSize";
+import { useBreakpoint } from "./hooks/useBreakpoint";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Navbar } from "./components/Navbar/Navbar";
 import { News } from "./components/News/News";
@@ -10,23 +10,14 @@ import { navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-    const width = useWindowWidth();
-    const [externalSidebar, setExternalSidebar] = useState(true);
-    const [collapsedNavbar, setCollapsedNavbar] = useState(false);
-
-    //TODO: Ререндринг происходит при каждом изменении окна, нужно исправить
-
-    useEffect(() => {
-        setExternalSidebar(width >= 992);
-        setCollapsedNavbar(width < 768);
-    }, [width]);
+    const externalSidebar = useBreakpoint(992);
 
     return (
-        <Container fluid="lg" className="p-0">
+        <Container fluid="lg">
             <Row>
                 <Col xs="12" lg="2"> {externalSidebar && <Sidebar items={sidebarItems} />} </Col>
-                <Col xs="12" lg="10" className="p-0 m-0">
-                    <Navbar items={navbarItems} collapsedNavbar={collapsedNavbar} />
+                <Col xs="12" lg="10" className="m-0 p-0">
+                    <Navbar items={navbarItems} />
                     {!externalSidebar && <Sidebar items={sidebarItems} />}
 
                     <News items={[]} />

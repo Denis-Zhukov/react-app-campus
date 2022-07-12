@@ -1,0 +1,36 @@
+.dark-accordion {
+	background: black
+}
+
+.dark-accordion .accordion-item, .dark-accordion .accordion-button {
+	color: rgba(255, 255, 255, 0.55) !important;
+	border-radius: 0 !important;
+	background: rgb(33, 37, 41) !important;
+}
+
+.dark-accordion .accordion-button:focus {
+	outline: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.dark-accordion .accordion-button:not(.collapsed) {
+	color: rgba(255, 255, 255, 0.55) !important;
+	background: #414549 !important;;
+}
+
+.dark-accordion .accordion-button::after {
+	filter: invert(100%) !important
+}
+
+.dark-accordion .accordion-body {
+	padding: 0 !important;
+	margin: 0 !important;;
+}
+
+.dark-accordion .accordion-body > * {
+	display: block !important;;
+	text-decoration: none !important;;
+	color: rgba(255, 255, 255, 0.55) !important;;
+	padding: 1rem !important;
+}

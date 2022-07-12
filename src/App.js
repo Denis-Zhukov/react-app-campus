@@ -9,6 +9,22 @@ import { sidebarItems } from "./constants";
 import { navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const news = [
+    {
+        image: "https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg",
+        title: "Very long long long long long some title",
+        to: "/",
+    }, {
+        image: "https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg",
+        title: "Very long long long long long some title",
+        to: "/",
+    }, {
+        image: "https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg",
+        title: "Very long long long long long some title",
+        to: "/",
+    },
+];
+
 function App() {
     const externalSidebar = useBreakpoint(992);
 
@@ -20,7 +36,7 @@ function App() {
                     <Navbar items={navbarItems} />
                     {!externalSidebar && <Sidebar items={sidebarItems} />}
 
-                    <News items={[]} />
+                    <News items={news} />
                 </Col>
             </Row>
         </Container>

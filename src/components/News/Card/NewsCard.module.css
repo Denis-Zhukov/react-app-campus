@@ -1,0 +1,42 @@
+:root {
+	--width-card: 250px;
+	--height-card: 375px;
+}
+
+
+.card {
+	width: var(--width-card);
+	height: var(--height-card);
+	position: relative;
+	overflow: hidden;
+}
+
+.cardImage {
+	object-fit: cover;
+	object-position: center center;;
+	width: 100%;
+	height: 100%
+}
+
+.hoverBlock {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	background: rgba(0, 0, 0, .65);
+	transition: all ease-in-out .15s;
+}
+
+.hoverTitle {
+	color: white;
+	text-align: center;
+	word-wrap: break-word;
+}
+
+.hoverBlock:hover {
+	opacity: 1;
+}

@@ -17,7 +17,6 @@ function App() {
     //TODO: Ререндринг происходит при каждом изменении окна, нужно исправить
 
     useEffect(() => {
-        console.log(externalSidebar)
         setExternalSidebar(width >= 992);
         setCollapsedNavbar(width < 768);
     }, [width]);

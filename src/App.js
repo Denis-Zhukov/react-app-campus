@@ -6,6 +6,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 
 import { News } from "./components/News/News";
 import { ReadingNews } from "./components/ReadingNews/ReadingNews";
+import { NoMatch } from "./components/NoMatch/NoMatch";
 
 import { Routes as Switch, Route } from "react-router-dom";
 
@@ -26,6 +27,7 @@ function App() {
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
                         <Route path="/campus/news/:idNews" element={<ReadingNews />}></Route>
+                        <Route path="*" element={<NoMatch />}></Route>
                     </Switch>
                 </Col>
             </Row>

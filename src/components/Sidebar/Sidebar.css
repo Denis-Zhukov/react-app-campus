@@ -33,8 +33,16 @@
 }
 
 .dark-accordion .accordion-body > * {
-	display: block !important;;
+	display: block !important;
 	text-decoration: none !important;;
 	color: rgba(255, 255, 255, 0.55) !important;;
 	padding: 1rem !important;
+}
+
+.dark-accordion .accordion-body > *:hover {
+	background: #373b3f !important;
+}
+
+.dark-accordion .accordion-body .active {
+	background: #373b3f !important;
 }

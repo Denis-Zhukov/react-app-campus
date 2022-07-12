@@ -2,6 +2,10 @@
 	background: #414549;
 }
 
+.exitBtn{
+	width: 25% !important;
+}
+
 @media only screen and (max-width: 767px) {
 	.exitBtn {
 		padding: 0;

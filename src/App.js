@@ -27,7 +27,7 @@ function App() {
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
                         <Route path="/campus/news/:idNews" element={<ReadingNews />}></Route>
-                        <Route path="*" element={<NoMatch />}></Route>
+                        <Route path="*" element={<NoMatch />} status={404}></Route>
                     </Switch>
                 </Col>
             </Row>

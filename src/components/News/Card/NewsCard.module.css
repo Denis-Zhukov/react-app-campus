@@ -1,6 +1,6 @@
 :root {
-	--width-card: 250px;
-	--height-card: 375px;
+	--width-card: 200px;
+	--height-card: 325px;
 }
 
 
@@ -40,4 +40,5 @@
 
 .hoverBlock:hover {
 	opacity: 1;
+	cursor: pointer;
 }

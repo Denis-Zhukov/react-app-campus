@@ -2,9 +2,11 @@ import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { configureStore } from "@reduxjs/toolkit";
 import newsReducer from "./newsSlice";
+import sportReducer from "./sportSlice";
 
 const rootReducer = combineReducers({
     news: newsReducer,
+    sport: sportReducer,
 });
 
 export const store = configureStore({

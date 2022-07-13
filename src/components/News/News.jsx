@@ -3,14 +3,14 @@ import { NewsCard } from "./Card/NewsCard";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { loadLastNews } from "../../store/newsSlice";
+import { getLastNews } from "../../store/newsSlice";
 
 export const News = () => {
     const {status, error, items, ...f} = useSelector(state => state.news);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadLastNews());
+        dispatch(getLastNews());
     }, [dispatch]);
 
     return (

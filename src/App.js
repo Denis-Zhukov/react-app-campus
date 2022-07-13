@@ -6,6 +6,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 
 import { News } from "./components/News/News";
 import { ReadingNews } from "./components/ReadingNews/ReadingNews";
+import { Sport } from "./components/Sport/Sport";
 import { NoMatch } from "./components/NoMatch/NoMatch";
 
 import { Routes as Switch, Route } from "react-router-dom";
@@ -13,9 +14,11 @@ import { Routes as Switch, Route } from "react-router-dom";
 import { sidebarItems } from "./constants";
 import { navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ReadingSport } from "./components/ReadingSport/ReadingSport";
 
 function App() {
     const externalSidebar = useBreakpoint(992);
+
     return (
         <Container fluid="lg">
             <Row>
@@ -27,6 +30,8 @@ function App() {
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
                         <Route path="/campus/news/:idNews" element={<ReadingNews />}></Route>
+                        <Route path="/campus/activity/sport" element={<Sport />}></Route>
+                        <Route path="/campus/activity/sport/:idSport" element={<ReadingSport />}></Route>
                         <Route path="*" element={<NoMatch />} status={404}></Route>
                     </Switch>
                 </Col>

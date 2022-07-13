@@ -1,10 +1,10 @@
 import { useLayoutEffect, useState } from "react";
 
 export function useBreakpoint(breakpoint) {
-    const [isBreakpoint, setIsBreakpoint] = useState(document.body.clientWidth >= breakpoint);
+    const [isBreakpoint, setIsBreakpoint] = useState(window.innerWidth >= breakpoint);
 
     const updateWidth = () => {
-        let newValue = document.body.clientWidth >= breakpoint;
+        let newValue = window.innerWidth >= breakpoint;
         if( newValue !== isBreakpoint )
             setIsBreakpoint(newValue);
     };

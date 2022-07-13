@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getLastNews = createAsyncThunk(
-    "news/loadLastNews",
-    async function(_, {rejectWithValue}) {
+export const getSportPosts = createAsyncThunk(
+    "sport/getNewsById",
+    async function(id, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts?_start=0&_limit=8`;
+            const url = `https://jsonplaceholder.typicode.com/posts?_limit=5`;
             const response = await axios.get(url);
 
             if( response.status !== 200 )
@@ -18,8 +18,8 @@ export const getLastNews = createAsyncThunk(
     },
 );
 
-export const getNewsById = createAsyncThunk(
-    "news/getNewsById",
+export const getSportById = createAsyncThunk(
+    "sport/getSportById",
     async function(id, {rejectWithValue}) {
         try {
             const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
@@ -35,11 +35,11 @@ export const getNewsById = createAsyncThunk(
     },
 );
 
-const newsSlice = createSlice({
-    name: "news",
+const sportSlice = createSlice({
+    name: "sport",
     initialState: {
         items: [],
-        openNews: null,
+        openSport: null,
         status: null,
         error: null,
     },
@@ -47,36 +47,36 @@ const newsSlice = createSlice({
     reducers: {},
 
     extraReducers: {
-        [getLastNews.pending]: (state) => {
+        [getSportPosts.pending]: (state) => {
             state.status = "pending";
             state.error = null;
         },
-        [getLastNews.fulfilled]: (state, action) => {
+        [getSportPosts.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
             state.length = 0;
             state.items = action.payload;
         },
-        [getLastNews.rejected]: (state, action) => {
+        [getSportPosts.rejected]: (state, action) => {
             state.status = "rejected";
             state.error = action.payload;
         },
 
-
-        [getNewsById.pending]: (state) => {
+        [getSportById.pending]: (state) => {
             state.status = "pending";
             state.error = null;
         },
-        [getNewsById.fulfilled]: (state, action) => {
+        [getSportById.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
-            state.openNews = action.payload;
+            state.length = 0;
+            state.openSport = action.payload;
         },
-        [getNewsById.rejected]: (state, action) => {
+        [getSportById.rejected]: (state, action) => {
             state.status = "rejected";
             state.error = action.payload;
         },
     },
 });
 
-export default newsSlice.reducer;
+export default sportSlice.reducer;

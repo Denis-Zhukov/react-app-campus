@@ -1,17 +1,17 @@
-import { NavLink } from "react-router-dom";
-
 export const sidebarItems = [
-    {title: "Общие новости", body: (<NavLink to="/">Ссылка куда-то</NavLink>)},
+    {title: "Общие новости", body: [{to: "/", children: "Ссылка куда-то"}]},
     {
-        title: "Активности", body: (
-            <>
-                <NavLink to="campus/activity/sport">Спорт</NavLink>
-                <NavLink to="campus/activity/events">Мероприятия</NavLink>
-                <NavLink to="campus/activity/execution">Отработки</NavLink>
-            </>
-        ),
+        title: "Активности", body: [
+            {to: "campus/activity/sport", children: "Спорт"},
+            {to: "campus/activity/events", children: "Мероприятия"},
+            {to: "campus/activity/execution", children: "Отработки"},
+        ],
     },
-    {title: "Заселение", body: (<NavLink to="/">Ссылка куда-то</NavLink>)},
+    {
+        title: "Заселение", body: [
+            {to: "/campus/news/campus_new_campus_docs", children: "Порядок заселения"},
+        ],
+    },
 ];
 
 export const navbarItems = [

@@ -32,6 +32,7 @@ function App() {
                         <Route path="/campus/news/:idNews" element={<ReadingNews />}></Route>
                         <Route path="/campus/activity/sport" element={<Sport />}></Route>
                         <Route path="/campus/activity/sport/:idSport" element={<ReadingSport />}></Route>
+                        <Route path="/campus/news/campus_new_campus_docs" element={<ReadingSport />}></Route>
                         <Route path="*" element={<NoMatch />} status={404}></Route>
                     </Switch>
                 </Col>

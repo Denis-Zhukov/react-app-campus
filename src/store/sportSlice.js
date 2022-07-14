@@ -39,12 +39,10 @@ const sportSlice = createSlice({
     name: "sport",
     initialState: {
         items: [],
-        openSport: null,
+        open: null,
         status: null,
         error: null,
     },
-
-    reducers: {},
 
     extraReducers: {
         [getSportPosts.pending]: (state) => {
@@ -54,7 +52,6 @@ const sportSlice = createSlice({
         [getSportPosts.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
-            state.length = 0;
             state.items = action.payload;
         },
         [getSportPosts.rejected]: (state, action) => {
@@ -69,8 +66,7 @@ const sportSlice = createSlice({
         [getSportById.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
-            state.length = 0;
-            state.openSport = action.payload;
+            state.open = action.payload;
         },
         [getSportById.rejected]: (state, action) => {
             state.status = "rejected";

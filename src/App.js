@@ -1,20 +1,23 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { useBreakpoint } from "./hooks/useBreakpoint";
+import { Container, Row, Col } from "react-bootstrap";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Navbar } from "./components/Navbar/Navbar";
 
 import { News } from "./components/News/News";
-import { ReadingNews } from "./components/ReadingNews/ReadingNews";
+
+import { ReadingPost } from "./components/ReadingPost/ReadingPost";
+import { getNewsById } from "./store/newsSlice";
+import { getSportById } from "./store/sportSlice";
+import { getCampusInfo } from "./store/campusSlice";
+
 import { Sport } from "./components/Sport/Sport";
 import { NoMatch } from "./components/NoMatch/NoMatch";
 
 import { Routes as Switch, Route } from "react-router-dom";
 
-import { sidebarItems } from "./constants";
-import { navbarItems } from "./constants";
+import { sidebarItems, navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ReadingSport } from "./components/ReadingSport/ReadingSport";
 
 function App() {
     const externalSidebar = useBreakpoint(992);
@@ -29,12 +32,22 @@ function App() {
 
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
-                        <Route path="/campus/news/:idNews" element={<ReadingNews />}></Route>
+                        <Route
+                            path="/campus/news/:id"
+                            element={<ReadingPost action={getNewsById} selector={(state) => state.news} />}
+                        ></Route>
                         <Route path="/campus/activity/sport" element={<Sport />}></Route>
-                        <Route path="/campus/activity/sport/:idSport" element={<ReadingSport />}></Route>
-                        <Route path="/campus/news/campus_new_campus_docs" element={<ReadingSport />}></Route>
+                        <Route
+                            path="/campus/activity/sport/:id"
+                            element={<ReadingPost action={getSportById} selector={(state) => state.sport} />}
+                        ></Route>
+                        <Route
+                            path="/campus/news/campus_new/campus_docs"
+                            element={<ReadingPost action={getCampusInfo} selector={(state) => state.campus} />}
+                        ></Route>
                         <Route path="*" element={<NoMatch />} status={404}></Route>
                     </Switch>
+
                 </Col>
             </Row>
         </Container>

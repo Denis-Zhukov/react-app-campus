@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { getLastNews } from "../../store/newsSlice";
 
 export const News = () => {
-    const {status, error, items, ...f} = useSelector(state => state.news);
+    const {status, error, items} = useSelector(state => state.news);
     const dispatch = useDispatch();
 
     useEffect(() => {

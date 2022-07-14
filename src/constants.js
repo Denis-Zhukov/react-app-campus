@@ -9,7 +9,7 @@ export const sidebarItems = [
     },
     {
         title: "Заселение", body: [
-            {to: "/campus/news/campus_new_campus_docs", children: "Порядок заселения"},
+            {to: "/campus/news/campus_new/campus_docs", children: "Порядок заселения"},
         ],
     },
 ];

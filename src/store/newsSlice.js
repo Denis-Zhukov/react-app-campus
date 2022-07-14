@@ -39,12 +39,10 @@ const newsSlice = createSlice({
     name: "news",
     initialState: {
         items: [],
-        openNews: null,
+        open: null,
         status: null,
         error: null,
     },
-
-    reducers: {},
 
     extraReducers: {
         [getLastNews.pending]: (state) => {
@@ -54,7 +52,6 @@ const newsSlice = createSlice({
         [getLastNews.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
-            state.length = 0;
             state.items = action.payload;
         },
         [getLastNews.rejected]: (state, action) => {
@@ -70,7 +67,7 @@ const newsSlice = createSlice({
         [getNewsById.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
-            state.openNews = action.payload;
+            state.open = action.payload;
         },
         [getNewsById.rejected]: (state, action) => {
             state.status = "rejected";

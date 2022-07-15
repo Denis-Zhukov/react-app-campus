@@ -11,7 +11,7 @@ export const ReadingPost = ({action, selector}) => {
 
     useEffect(() => {
         dispatch(action(id));
-    }, [id]);
+    }, [id, action, dispatch]);
 
     return (
         <Container fluid className="pt-3">

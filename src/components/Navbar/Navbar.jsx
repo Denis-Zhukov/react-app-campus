@@ -15,10 +15,6 @@ export const Navbar = ({items}) => {
                         key={index}
                         to={item.to}
                     >{item.title}</NavLink>)}
-                    <NavLink
-                        className={`text-center nav-link ${s.navItem} ${s.exitBtn}`}
-                        to="/logout"
-                    > <i className={`fa-solid fa-right-from-bracket`}></i> </NavLink>
                 </Nav>
             </BNav.Collapse>
         </Container>

@@ -12,6 +12,7 @@ import { getSportById } from "./store/sportSlice";
 import { getSettlingCampusInfo } from "./store/campusSlice";
 
 import { Sport } from "./components/Sport/Sport";
+import { Contacts } from "./components/Contacts/Contacts";
 import { NoMatch } from "./components/NoMatch/NoMatch";
 
 import { Routes as Switch, Route } from "react-router-dom";
@@ -52,6 +53,7 @@ function App() {
                         ></Route>
                         <Route path="/campus/campus_info" element={<Campus />}></Route>
                         <Route path="/campus/rating/ratyng_system" element={<RatingSystem />}></Route>
+                        <Route path="/campus/contacts" element={<Contacts />}></Route>
                         <Route path="*" element={<NoMatch />} status={404}></Route>
                     </Switch>
 

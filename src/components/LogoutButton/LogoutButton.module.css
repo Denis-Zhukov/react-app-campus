@@ -1,18 +1,22 @@
-.logoutBtn{
+.logoutBtn {
 	display: flex;
 	height: 56px;
-	justify-content: start;
+	justify-content: flex-start;
 	align-items: center;
 	text-decoration: none;
 }
 
-.logoutBtn > i{
+.logoutBtn > i {
 	font-size: 3rem;
 	color: #000;
 }
 
 @media only screen and (max-width: 991px) {
-	.logoutBtn{
+	.logoutBtn {
 		justify-content: center;
+	}
+
+	.logoutBtn > i {
+		font-size: 2.5rem;
 	}
 }

@@ -18,6 +18,7 @@ import { Routes as Switch, Route } from "react-router-dom";
 
 import { LogoutButton } from "./components/LogoutButton/LogoutButton";
 import { Campus } from "./components/Campus/Campus";
+import { RatingSystem } from "./components/RatingSystem/RatingSystem";
 
 import { navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,7 +33,7 @@ function App() {
                 <Col xs="12" lg="2"> {externalSidebar && <Sidebar />} </Col>
                 <Col xs="12" lg="8" className="m-0 p-0">
                     <Navbar items={navbarItems} />
-                    <Row>{!externalSidebar && <Sidebar />}</Row>
+                    {!externalSidebar && <Sidebar />}
                     <Row className="m-0">{!externalSidebar && <LogoutButton />}</Row>
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
@@ -49,7 +50,8 @@ function App() {
                             path="/campus/news/campus_new/campus_docs"
                             element={<ReadingPost action={getSettlingCampusInfo} selector={(state) => state.campus} />}
                         ></Route>
-                        <Route path="/campus/news/campus_info/camp_1" element={<Campus />}></Route>
+                        <Route path="/campus/campus_info" element={<Campus />}></Route>
+                        <Route path="/campus/rating/ratyng_system" element={<RatingSystem />}></Route>
                         <Route path="*" element={<NoMatch />} status={404}></Route>
                     </Switch>
 

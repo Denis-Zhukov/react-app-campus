@@ -56,8 +56,8 @@ export const Campus = () => {
                 </Swiper>
             </Row>
             <Row>
-                {statusImages === "rejected" && <Alert variant="danger">{errorImages}</Alert>}
-                {statusImages === "pending" &&
+                {statusInfo === "rejected" && <Alert variant="danger">{errorInfo}</Alert>}
+                {statusInfo === "pending" &&
                     <Spinner animation="border" role="status" className="mx-auto">
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>}

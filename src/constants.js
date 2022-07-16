@@ -22,6 +22,10 @@ export const sidebarItems = {
 export const navbarItems = [
     {title: "Новости", to: "/campus/news"},
     {title: "Общежития", to: "/campus/campus_info"},
-    {title: "Рейтинг", to: "/campus/rating"},
+    {title: "Рейтинг", to: "/campus/rating/ratyng_system"},
     {title: "Контакты", to: "/campus/contacts"},
 ];
+
+export const urls = {
+
+}

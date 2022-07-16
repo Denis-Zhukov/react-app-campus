@@ -6,6 +6,7 @@ export const getLastNews = createAsyncThunk(
     async function(_, {rejectWithValue}) {
         try {
             const url = `https://jsonplaceholder.typicode.com/posts?_start=0&_limit=8`;
+            // const url = `http://26.197.127.3:8000/add/`;
             const response = await axios.get(url);
 
             if( response.status !== 200 )

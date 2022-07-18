@@ -13,20 +13,26 @@ import { getSettlingCampusInfo } from "./store/campusSlice";
 
 import { Sport } from "./components/Sport/Sport";
 import { Contacts } from "./components/Contacts/Contacts";
+import { SignIn } from "./components/SignIn/SignIn";
 import { NoMatch } from "./components/NoMatch/NoMatch";
 
-import { Routes as Switch, Route } from "react-router-dom";
+import { Routes as Switch, Route, Navigate } from "react-router-dom";
 
-import { LogoutButton } from "./components/LogoutButton/LogoutButton";
+import { SignInButton } from "./components/SignInButton/SignInButton";
 import { Campus } from "./components/Campus/Campus";
-import { RatingSystem } from "./components/RatingSystem/RatingSystem";
+import { Rating } from "./components/Rating/Rating";
+import { ListOfRating } from "./components/ListOfRating/ListOfRating";
+import { ListOfStudents } from "./components/ListOfStudents/ListOfStudents";
 
 import { navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/fontawesome/css/all.min.css";
+import { useSelector } from "react-redux";
+import { AdminRatingStudent } from "./components/AdminRatingStudent/AdminRatingStudent";
 
 function App() {
     const externalSidebar = useBreakpoint(992);
+    const {isAuth} = useSelector(state => state.auth);
 
     return (
         <Container fluid="lg">
@@ -35,7 +41,7 @@ function App() {
                 <Col xs="12" lg="8" className="m-0 p-0">
                     <Navbar items={navbarItems} />
                     {!externalSidebar && <Sidebar />}
-                    <Row className="m-0">{!externalSidebar && <LogoutButton />}</Row>
+                    <Row className="m-0">{!externalSidebar && <SignInButton />}</Row>
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
                         <Route
@@ -50,15 +56,35 @@ function App() {
                         <Route
                             path="/campus/news/campus_new/campus_docs"
                             element={<ReadingPost action={getSettlingCampusInfo} selector={(state) => state.campus} />}
-                        ></Route>
-                        <Route path="/campus/campus_info" element={<Campus />}></Route>
-                        <Route path="/campus/rating/ratyng_system" element={<RatingSystem />}></Route>
-                        <Route path="/campus/contacts" element={<Contacts />}></Route>
-                        <Route path="*" element={<NoMatch />} status={404}></Route>
+                        />
+                        <Route path="/campus/campus_info" element={<Campus />} />
+                        <Route
+                            path="/campus/rating/ratyng_system"
+                            element={<Rating
+                                list={<ListOfRating />}
+                            />}
+                        />
+                        <Route
+                            path="/campus/rating/ratyng_system/students"
+                            element={<Rating
+                                list={<ListOfStudents />}
+                            />}
+                        />
+                        <Route path="/campus/contacts" element={<Contacts />} />
+                        <Route path="/campus/admin/rating_student" element={<AdminRatingStudent />} />
+
+
+                        {
+                            isAuth ?
+                                <Route path="/campus/signin" element={<Navigate replace to="/campus/news" />} />
+                                :
+                                <Route path="/campus/signin" element={<SignIn />} />
+                        }
+                        <Route path="*" element={<NoMatch />} status={404} />
                     </Switch>
 
                 </Col>
-                {externalSidebar && <Col xs="12" lg="2"> <LogoutButton /> </Col>}
+                {externalSidebar && <Col xs="12" lg="2"> <SignInButton /> </Col>}
             </Row>
         </Container>
     );

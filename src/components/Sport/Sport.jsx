@@ -36,8 +36,7 @@ export const Sport = () => {
                 {
                     status === "fulfilled" &&
                     items.map(item => (
-                        // className="d-flex flex-column flex-sm-row"
-                            <Col key={item.id} xs={12} >
+                            <Col key={item.id} xs={12}>
                                 <SportCard {...item} />
                             </Col>
                         ),

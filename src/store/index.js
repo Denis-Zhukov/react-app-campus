@@ -6,6 +6,7 @@ import sportReducer from "./sportSlice";
 import campusSlice from "./campusSlice";
 import ratingSlice from "./ratingSlice";
 import contactsSlice from "./contactsSlice";
+import authSlice from "./authSlice";
 
 const rootReducer = combineReducers({
     news: newsReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     campus: campusSlice,
     rating: ratingSlice,
     contacts: contactsSlice,
+    auth: authSlice,
 });
 
 export const store = configureStore({

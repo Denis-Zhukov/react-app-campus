@@ -1,0 +1,15 @@
+.toolkitBtn{
+	border: none;
+	outline: none;
+	background: transparent;
+	font-size: 1.25rem;
+}
+
+.active>*{
+	background: red !important;
+	border: 1px solid red;
+}
+
+.tableRow>td{
+	background: blue !important;
+}

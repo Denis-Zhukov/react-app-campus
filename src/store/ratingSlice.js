@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ratingConditions } from "../constants";
 
 export const getRatingInfo = createAsyncThunk(
     "rating/getInfo",
@@ -35,6 +36,23 @@ export const getListOfStudents = createAsyncThunk(
     },
 );
 
+export const getPageOfStudents = createAsyncThunk(
+    "rating/getPageOfStudents",
+    async function(settings, {rejectWithValue}) {
+        try {
+            const url = `https://jsonplaceholder.typicode.com/users?_limit=${settings.limit}&_start=${(settings.page - 1) * settings.limit}`;
+            const response = await axios.get(url);
+
+            if( response.status !== 200 )
+                throw new Error("Error getting latest news");
+
+            return {count: response.headers["x-total-count"], data: response.data};
+        } catch(e) {
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
 const ratingSlice = createSlice({
     name: "rating",
     initialState: {
@@ -42,9 +60,17 @@ const ratingSlice = createSlice({
         statusInfo: null,
         errorInfo: null,
 
-        listOfStudents: [],
+        list: [],
         statusList: null,
         errorList: null,
+
+        countStudents: 1,
+    },
+
+    reducers: {
+        getRatingList(state) {
+            state.list = ratingConditions;
+        },
     },
 
     extraReducers: {
@@ -70,9 +96,25 @@ const ratingSlice = createSlice({
         [getListOfStudents.fulfilled]: (state, action) => {
             state.statusList = "fulfilled";
             state.errorList = null;
-            state.listOfStudents = action.payload;
+            state.list = action.payload;
         },
         [getListOfStudents.rejected]: (state, action) => {
+            state.statusList = "rejected";
+            state.errorList = action.payload;
+        },
+
+
+        [getPageOfStudents.pending]: (state) => {
+            state.statusList = "pending";
+            state.errorList = null;
+        },
+        [getPageOfStudents.fulfilled]: (state, action) => {
+            state.statusList = "fulfilled";
+            state.errorList = null;
+            state.list = action.payload.data;
+            state.countStudents = action.payload.count;
+        },
+        [getPageOfStudents.rejected]: (state, action) => {
             state.statusList = "rejected";
             state.errorList = action.payload;
         },
@@ -80,3 +122,4 @@ const ratingSlice = createSlice({
 });
 
 export default ratingSlice.reducer;
+export const {getRatingList} = ratingSlice.actions;

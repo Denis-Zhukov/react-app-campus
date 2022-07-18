@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getRatingInfo } from "../../store/ratingSlice";
-import { ListOfStudents } from "./ListOfStudents/ListOfStudents";
 
-export const RatingSystem = () => {
+export const Rating = ({list}) => {
     const dispatch = useDispatch();
     const {info, statusInfo: status, errorInfo: error} = useSelector(state => state.rating);
     useEffect(() => {
@@ -26,7 +25,7 @@ export const RatingSystem = () => {
                 <>
                     <Row><h2>{info?.title}</h2></Row>
                     <Row>{info?.body?.split("\n").map((paragraph, i) => <p key={i}>{paragraph}</p>)}</Row>
-                    <Row><ListOfStudents /></Row>
+                    <Row>{list}</Row>
                 </>
             }
             {

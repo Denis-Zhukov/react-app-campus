@@ -1,5 +1,6 @@
-.dark-accordion {
-	background: black
+.dark-accordion{
+	display: flex;
+	flex-direction: column;
 }
 
 .dark-accordion .accordion-item, .dark-accordion .accordion-button {
@@ -19,7 +20,7 @@
 	background: #414549 !important;;
 }
 
-.dark-accordion .accordion-button.collapsed{
+.dark-accordion .accordion-button.collapsed {
 	color: rgba(255, 255, 255, 0.55) !important;
 }
 
@@ -46,3 +47,36 @@
 .dark-accordion .accordion-body .active {
 	background: #373b3f !important;
 }
+
+.active{
+	color: white !important;
+}
+
+.sidebarItem > a {
+	display: block;
+	padding: 1rem;
+	color: #FFFFFF8C;
+	text-decoration: none;
+	transition: all ease-in-out .25s;
+}
+
+.sidebarItem > a:hover {
+	color: #FFFFFF;
+}
+
+.dark-accordion.centeredByVertical {
+	margin-top: 7rem;
+}
+
+.addStudentBtn{
+	border: none;
+	background: transparent;
+	font-size: 2rem;
+}
+
+@media only screen and (max-width: 991px) {
+	.dark-accordion.centeredByVertical {
+		margin-top: 0;
+	}
+}
+

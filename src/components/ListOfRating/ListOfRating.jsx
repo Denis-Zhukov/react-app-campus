@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListOfStudents } from "../../../store/ratingSlice";
 import { Alert, Col, Spinner, Table } from "react-bootstrap";
+import { getRatingList } from "../../store/ratingSlice";
 
-export const ListOfStudents = () => {
+export const ListOfRating = () => {
     const dispatch = useDispatch();
-    const {listOfStudents, statusList: status, errorList: error} = useSelector(state => state.rating);
+    const {list, statusList: status, errorList: error} = useSelector(state => state.rating);
+
     useEffect(() => {
-        dispatch(getListOfStudents());
+        dispatch(getRatingList());
     }, [dispatch]);
 
-    console.log(listOfStudents);
     return (
         <>
             {
@@ -22,35 +22,36 @@ export const ListOfStudents = () => {
                 </Col>
             }
             {
-                status === "fulfilled" && listOfStudents.length !== 0 &&
-                <Table striped bordered hover>
+                (status === "fulfilled" || list.length !== 0) &&
+                <><Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>№</th>
-                            <th>Имя</th>
-                            <th>Логин</th>
-                            <th>Рейтинг</th>
+                            <th>п/п</th>
+                            <th>Деятельность, повышающая и понижающая рейтинг</th>
+                            <th>Кол-во баллов</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {listOfStudents.map(s => (
-                        <tr key={s.id}>
-                            <td>{s.id}</td>
-                            <td>{s.name}</td>
-                            <td>{s.username}</td>
-                            <td>1</td>
+                    {list.map(s => (
+                        <tr key={s.num}>
+                            <td>{s.num}</td>
+                            <td>{s.action}</td>
+                            <td>{s.points}</td>
                         </tr>
                     ))
                     }
                     </tbody>
                 </Table>
+                    <p>* Лишение места в общежитии и штрафные баллы при заселении в общежитие в следующем учебном
+                       году</p>
+                </>
             }
             {
                 status === "rejected" &&
                 <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
             }
             {
-                status === "fulfilled" && listOfStudents.length === 0 &&
+                status === "fulfilled" && list.length === 0 &&
                 <Alert variant="dark" key="dark" className="text-center">Нет студентов</Alert>
             }
         </>

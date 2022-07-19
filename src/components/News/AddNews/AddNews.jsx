@@ -5,12 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNews } from "../../../store/newsSlice";
 import { clearResult } from "../../../store/newsSlice";
 import s from "./../News.module.css";
+import { ModalWindow } from "../../ModalWindow/ModalWindow";
 
 export const AddNews = ({setShow}) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
+
     const {resultStatus, resultError} = useSelector(state => state.news);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const handleTitle = (e) => setTitle(e.target.value);
     const handleBody = (e) => setBody(e.target.value);
@@ -73,15 +76,19 @@ export const AddNews = ({setShow}) => {
                             }}
                         >Назад</Button>
                         <Button
-                            variant="dark" className="w-auto" type="submit"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleAddNews();
-                            }}
+                            variant="dark" className="w-auto"
+                            onClick={(e) => setShowConfirm(true)}
                         >Добавить</Button>
                     </Col>
                 </Row>
             </Form>
+            <ModalWindow
+                show={showConfirm}
+                setShow={setShowConfirm}
+                title="Вы уверены?"
+                body={"Добавить статью"}
+                handleAction={handleAddNews}
+            />
         </Container>
     );
 };

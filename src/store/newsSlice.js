@@ -38,7 +38,7 @@ export const getNewsById = createAsyncThunk(
 );
 
 export const addNews = createAsyncThunk(
-    "news/getNewsById",
+    "news/addNews",
     async function(news, {rejectWithValue}) {
         try {
             const url = `https://jsonplaceholder.typicode.com/posts/`;
@@ -69,7 +69,6 @@ const newsSlice = createSlice({
 
     reducers: {
         clearResult(state) {
-            console.log('here')
             state.result = null;
             state.resultError = null;
             state.resultStatus = null;

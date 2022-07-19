@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 
-export const ModalWindow = ({show, setShow, body, title, handleAction, selector}) => {
+export const ModalWindow = ({show, setShow, body, title, handleAction, selector = null}) => {
     const handleClose = () => setShow(false);
 
     return (

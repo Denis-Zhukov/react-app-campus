@@ -7,6 +7,7 @@ import campusSlice from "./campusSlice";
 import ratingSlice from "./ratingSlice";
 import contactsSlice from "./contactsSlice";
 import authSlice from "./authSlice";
+import applicationSlice from "./applicationSlice";
 
 const rootReducer = combineReducers({
     news: newsReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     rating: ratingSlice,
     contacts: contactsSlice,
     auth: authSlice,
+    application: applicationSlice,
 });
 
 export const store = configureStore({

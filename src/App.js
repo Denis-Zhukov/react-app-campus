@@ -40,8 +40,8 @@ function App() {
                 <Col xs="12" lg="2"> {externalSidebar && <Sidebar />} </Col>
                 <Col xs="12" lg="8" className="m-0 p-0">
                     <Navbar items={navbarItems} />
-                    {!externalSidebar && <Sidebar />}
                     <Row className="m-0">{!externalSidebar && <SignInButton />}</Row>
+                    {!externalSidebar && <Sidebar />}
                     <Switch>
                         <Route path="/campus/news" element={<News />}></Route>
                         <Route
@@ -71,8 +71,11 @@ function App() {
                             />}
                         />
                         <Route path="/campus/contacts" element={<Contacts />} />
-                        <Route path="/campus/admin/rating_student" element={<AdminRatingStudent />} />
 
+                        {
+                            isAuth &&
+                            <Route path="/campus/admin/rating_student" element={<AdminRatingStudent />} />
+                        }
 
                         {
                             isAuth ?
@@ -80,6 +83,7 @@ function App() {
                                 :
                                 <Route path="/campus/signin" element={<SignIn />} />
                         }
+
                         <Route path="*" element={<NoMatch />} status={404} />
                     </Switch>
 

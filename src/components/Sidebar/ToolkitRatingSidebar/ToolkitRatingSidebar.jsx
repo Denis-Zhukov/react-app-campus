@@ -3,9 +3,12 @@ import { Accordion } from "react-bootstrap";
 import { sidebarItems } from "../../../constants";
 import { NavLink } from "react-router-dom";
 import { ModalWindow } from "../../ModalWindow/ModalWindow";
+import { useDispatch } from "react-redux";
+import { showAddingWindow } from "../../../store/applicationSlice";
 
 export const ToolkitRatingSidebar = () => {
     const [show, setShow] = useState(false);
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -17,7 +20,7 @@ export const ToolkitRatingSidebar = () => {
                 ))}
                 <button
                     className="addStudentBtn"
-                    onClick={() => setShow(true)}
+                    onClick={() => dispatch(showAddingWindow())}
                 ><i className="fa-solid fa-user-plus"></i></button>
             </Accordion>
             <ModalWindow

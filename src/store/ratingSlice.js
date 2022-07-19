@@ -53,6 +53,40 @@ export const getPageOfStudents = createAsyncThunk(
     },
 );
 
+export const addStudent = createAsyncThunk(
+    "rating/addStudent",
+    async function(data, {rejectWithValue}) {
+        try {
+            const url = `https://jsonplaceholder.typicode.com/users`;
+            const response = await axios.post(url, data);
+
+            if( response.status !== 200 )
+                throw new Error("Error getting latest news");
+
+            return response.data;
+        } catch(e) {
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
+export const deleteStudent = createAsyncThunk(
+    "rating/addStudent",
+    async function({id}, {rejectWithValue}) {
+        try {
+            const url = `https://jsonplaceholder.typicode.com/users`;
+            const response = await axios.post(url, id);
+
+            if( response.status !== 201 )
+                throw new Error("Error getting latest news");
+
+            return response.data;
+        } catch(e) {
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
 const ratingSlice = createSlice({
     name: "rating",
     initialState: {
@@ -65,11 +99,21 @@ const ratingSlice = createSlice({
         errorList: null,
 
         countStudents: 1,
+
+        lastUpdate: null,
+        statusResult: null,
+        errorResult: null,
+        result: null,
     },
 
     reducers: {
         getRatingList(state) {
             state.list = ratingConditions;
+        },
+        clearResult(state) {
+            state.result = null;
+            state.errorResult = null;
+            state.statusResult = null;
         },
     },
 
@@ -118,8 +162,49 @@ const ratingSlice = createSlice({
             state.statusList = "rejected";
             state.errorList = action.payload;
         },
+
+
+        [addStudent.pending]: (state) => {
+            state.statusResult = "pending";
+            state.errorResult = null;
+        },
+        [addStudent.fulfilled]: (state, action) => {
+            state.statusResult = "fulfilled";
+            state.errorResult = null;
+            state.result = action.payload;
+
+            state.lastUpdate = new Date().getTime();
+        },
+        [addStudent.rejected]: (state, action) => {
+            state.errorResult = "rejected";
+            state.errorList = action.payload;
+
+            state.lastUpdate = new Date().getTime();
+        },
+
+
+        [deleteStudent.pending]: (state) => {
+            state.statusResult = "pending";
+            state.errorResult = null;
+        },
+        [deleteStudent.fulfilled]: (state, action) => {
+            state.statusResult = "fulfilled";
+            state.errorResult = null;
+
+            const indx = state.list.findIndex(s => s.id === action.meta.arg.id);
+            state.list.splice(indx, 1);
+            state.result = action.payload;
+
+            state.lastUpdate = new Date().getTime();
+        },
+        [deleteStudent.rejected]: (state, action) => {
+            state.errorResult = "rejected";
+            state.errorList = action.payload;
+
+            state.lastUpdate = new Date().getTime();
+        },
     },
 });
 
 export default ratingSlice.reducer;
-export const {getRatingList} = ratingSlice.actions;
+export const {getRatingList, clearResult} = ratingSlice.actions;

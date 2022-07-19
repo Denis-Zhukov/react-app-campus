@@ -23,25 +23,26 @@ export const ListOfRating = () => {
             }
             {
                 (status === "fulfilled" || list.length !== 0) &&
-                <><Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>п/п</th>
-                            <th>Деятельность, повышающая и понижающая рейтинг</th>
-                            <th>Кол-во баллов</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {list.map(s => (
-                        <tr key={s.num}>
-                            <td>{s.num}</td>
-                            <td>{s.action}</td>
-                            <td>{s.points}</td>
-                        </tr>
-                    ))
-                    }
-                    </tbody>
-                </Table>
+                <>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>п/п</th>
+                                <th>Деятельность, повышающая и понижающая рейтинг</th>
+                                <th>Кол-во баллов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {list.map(s => (
+                            <tr key={s.num}>
+                                <td>{s.num}</td>
+                                <td>{s.action}</td>
+                                <td>{s.points}</td>
+                            </tr>
+                        ))
+                        }
+                        </tbody>
+                    </Table>
                     <p>* Лишение места в общежитии и штрафные баллы при заселении в общежитие в следующем учебном
                        году</p>
                 </>

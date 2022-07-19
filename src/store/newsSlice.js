@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ratingConditions } from "../constants";
 
 export const getLastNews = createAsyncThunk(
     "news/loadLastNews",
@@ -43,6 +42,23 @@ export const addNews = createAsyncThunk(
         try {
             const url = `https://jsonplaceholder.typicode.com/posts/`;
             const response = await axios.post(url, news);
+
+            if( response.status !== 201 )
+                throw new Error("Error to add latest news");
+
+            return response.data;
+        } catch(e) {
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
+export const deleteNews = createAsyncThunk(
+    "news/deleteNews",
+    async function(id, {rejectWithValue}) {
+        try {
+            const url = `https://jsonplaceholder.typicode.com/posts/`;
+            const response = await axios.post(url, id);
 
             if( response.status !== 201 )
                 throw new Error("Error to add latest news");
@@ -105,6 +121,7 @@ const newsSlice = createSlice({
             state.error = action.payload;
         },
 
+
         [addNews.pending]: (state) => {
             state.resultStatus = "pending";
             state.resultError = null;
@@ -115,6 +132,21 @@ const newsSlice = createSlice({
             state.result = action.payload;
         },
         [addNews.rejected]: (state, action) => {
+            state.resultStatus = "rejected";
+            state.resultError = action.payload;
+        },
+
+
+        [deleteNews.pending]: (state) => {
+            state.resultStatus = "pending";
+            state.resultError = null;
+        },
+        [deleteNews.fulfilled]: (state, action) => {
+            state.resultStatus = "fulfilled";
+            state.resultError = null;
+            state.result = action.payload;
+        },
+        [deleteNews.rejected]: (state, action) => {
             state.resultStatus = "rejected";
             state.resultError = action.payload;
         },

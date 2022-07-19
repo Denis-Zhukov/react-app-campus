@@ -7,8 +7,8 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { News } from "./components/News/News";
 
 import { ReadingPost } from "./components/ReadingPost/ReadingPost";
-import { getNewsById } from "./store/newsSlice";
-import { getSportById } from "./store/sportSlice";
+import { clearResult as clearResultNews, deleteNews, getNewsById } from "./store/newsSlice";
+import { clearResult as clearResultSport, deleteSportNews, getSportById } from "./store/sportSlice";
 import { getSettlingCampusInfo } from "./store/campusSlice";
 
 import { Sport } from "./components/Sport/Sport";
@@ -46,12 +46,22 @@ function App() {
                         <Route path="/campus/news" element={<News />}></Route>
                         <Route
                             path="/campus/news/:id"
-                            element={<ReadingPost action={getNewsById} selector={(state) => state.news} />}
+                            element={<ReadingPost
+                                action={getNewsById}
+                                selector={(state) => state.news}
+                                deleteAction={deleteNews}
+                                clearResult={clearResultNews}
+                            />}
                         />
                         <Route path="/campus/activity/sport" element={<Sport />}></Route>
                         <Route
                             path="/campus/activity/sport/:id"
-                            element={<ReadingPost action={getSportById} selector={(state) => state.sport} />}
+                            element={<ReadingPost
+                                action={getSportById}
+                                selector={(state) => state.sport}
+                                deleteAction={deleteSportNews}
+                                clearResult={clearResultSport}
+                            />}
                         />
                         <Route
                             path="/campus/news/campus_new/campus_docs"

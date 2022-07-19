@@ -192,7 +192,7 @@ const ratingSlice = createSlice({
             state.errorResult = null;
 
             const indx = state.list.findIndex(s => s.id === action.meta.arg.id);
-            state.list.splice(indx, 1);
+            if( indx !== -1 ) state.list.splice(indx, 1);
             state.result = action.payload;
 
             state.lastUpdate = new Date().getTime();

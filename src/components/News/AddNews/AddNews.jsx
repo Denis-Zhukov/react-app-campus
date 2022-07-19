@@ -20,7 +20,7 @@ export const AddNews = ({setShow}) => {
 
     const handleAddNews = useCallback(() => {
         dispatch(addNews({title, body}));
-    }, [handleTitle, handleBody]);
+    }, [title, body, dispatch]);
 
     return (
         <Container fluid className="py-3">

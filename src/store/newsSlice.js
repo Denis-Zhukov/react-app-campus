@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ratingConditions } from "../constants";
 
 export const getLastNews = createAsyncThunk(
     "news/loadLastNews",
@@ -36,6 +37,23 @@ export const getNewsById = createAsyncThunk(
     },
 );
 
+export const addNews = createAsyncThunk(
+    "news/getNewsById",
+    async function(news, {rejectWithValue}) {
+        try {
+            const url = `https://jsonplaceholder.typicode.com/posts/`;
+            const response = await axios.post(url, news);
+
+            if( response.status !== 201 )
+                throw new Error("Error to add latest news");
+
+            return response.data;
+        } catch(e) {
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
 const newsSlice = createSlice({
     name: "news",
     initialState: {
@@ -43,6 +61,19 @@ const newsSlice = createSlice({
         open: null,
         status: null,
         error: null,
+
+        resultStatus: null,
+        resultError: null,
+        result: null,
+    },
+
+    reducers: {
+        clearResult(state) {
+            console.log('here')
+            state.result = null;
+            state.resultError = null;
+            state.resultStatus = null;
+        },
     },
 
     extraReducers: {
@@ -74,7 +105,22 @@ const newsSlice = createSlice({
             state.status = "rejected";
             state.error = action.payload;
         },
+
+        [addNews.pending]: (state) => {
+            state.resultStatus = "pending";
+            state.resultError = null;
+        },
+        [addNews.fulfilled]: (state, action) => {
+            state.resultStatus = "fulfilled";
+            state.resultError = null;
+            state.result = action.payload;
+        },
+        [addNews.rejected]: (state, action) => {
+            state.resultStatus = "rejected";
+            state.resultError = action.payload;
+        },
     },
 });
 
 export default newsSlice.reducer;
+export const {clearResult} = newsSlice.actions;

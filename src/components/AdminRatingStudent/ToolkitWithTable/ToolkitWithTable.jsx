@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Col, Container, Form, Row, Spinner, Table } from "react-bootstrap";
-import s from "../AdminRatingStudent.module.css";
 import { ModalWindow } from "../../ModalWindow/ModalWindow";
 import { AddPointsForm } from "../../Forms/AddPointsForm/AddPointsForm";
 import { useDispatch, useSelector } from "react-redux";
 import { getPageOfStudents, deleteStudent, clearResult } from "../../../store/ratingSlice";
+import s from "../AdminRatingStudent.module.css";
 
 const limit = 5;
 

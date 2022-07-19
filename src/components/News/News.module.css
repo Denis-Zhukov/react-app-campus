@@ -4,3 +4,9 @@
 	background: transparent;
 	font-size: 1.25rem;
 }
+
+.avatarNews {
+	object-fit: cover;
+	max-height: 350px;
+	max-width: 100%;
+}

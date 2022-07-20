@@ -24,7 +24,6 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         isAuth: true,
-
         status: null,
         error: null,
     },

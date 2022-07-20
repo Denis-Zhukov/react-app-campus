@@ -4,14 +4,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Navbar } from "./components/Navbar/Navbar";
 
-import { News } from "./components/News/News";
+import { News } from "./pages/News/News";
 
 import { ReadingPost } from "./components/ReadingPost/ReadingPost";
 import { clearResult as clearResultNews, deleteNews, getNewsById } from "./store/newsSlice";
-import { clearResult as clearResultSport, deleteSportNews, getSportById } from "./store/sportSlice";
+import { clearResult as clearResultSport, deleteSportsPost, getSportsPostById } from "./store/sportSlice";
 import { getSettlingCampusInfo } from "./store/campusSlice";
 
-import { Sport } from "./components/Sport/Sport";
+import { Sport } from "./pages/Sport/Sport";
 import { Contacts } from "./components/Contacts/Contacts";
 import { SignIn } from "./components/SignIn/SignIn";
 import { NoMatch } from "./components/NoMatch/NoMatch";
@@ -57,9 +57,9 @@ function App() {
                         <Route
                             path="/campus/activity/sport/:id"
                             element={<ReadingPost
-                                action={getSportById}
+                                action={getSportsPostById}
                                 selector={(state) => state.sport}
-                                deleteAction={deleteSportNews}
+                                deleteAction={deleteSportsPost}
                                 clearResult={clearResultSport}
                             />}
                         />

@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { Row, Col, Container, Spinner, Alert } from "react-bootstrap";
-import { getSportPosts } from "../../store/sportSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { SportCard } from "./Card/SportCard";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getSportsPosts } from "../../store/sportSlice";
+
 export const Sport = () => {
-    const {status, error, items} = useSelector(state => state.sport);
     const dispatch = useDispatch();
+    const {status, error, items} = useSelector(state => state.sport);
+
     useEffect(() => {
-        dispatch(getSportPosts());
+        dispatch(getSportsPosts());
     }, [dispatch]);
 
     return (
@@ -26,21 +28,21 @@ export const Sport = () => {
                     </Col>
                 }
                 {
-                    status === "rejected" &&
-                    <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
-                }
-                {
-                    items.length === 0 && status === "fulfilled" &&
+                    status === "fulfilled" && items.length === 0 &&
                     <Alert variant="dark" key="dark" className="text-center text-light bg-dark">Новостей нет</Alert>
                 }
                 {
-                    status === "fulfilled" &&
+                    status === "fulfilled" && items.length !== 0 &&
                     items.map(item => (
                             <Col key={item.id} xs={12}>
                                 <SportCard {...item} />
                             </Col>
                         ),
                     )
+                }
+                {
+                    status === "rejected" &&
+                    <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
                 }
             </Row>
         </Container>

@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from "react";
 import { Alert, Button, Col, Container, FloatingLabel, Form, Row } from "react-bootstrap";
-import av from "./../../../assets/images/news_default_image.jpg";
+import { ModalWindow } from "../../../components/ModalWindow/ModalWindow";
+import av from "../../../assets/images/news_default_image.jpg";
+import s from "../News.module.css";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addNews } from "../../../store/newsSlice";
 import { clearResult } from "../../../store/newsSlice";
-import s from "./../News.module.css";
-import { ModalWindow } from "../../ModalWindow/ModalWindow";
 
 export const AddNews = ({setShow}) => {
     const dispatch = useDispatch();
@@ -86,7 +87,7 @@ export const AddNews = ({setShow}) => {
                 show={showConfirm}
                 setShow={setShowConfirm}
                 title="Вы уверены?"
-                body={"Добавить статью"}
+                body={"Добавить данную статью?"}
                 handleAction={handleAddNews}
             />
         </Container>

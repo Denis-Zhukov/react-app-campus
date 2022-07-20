@@ -1,16 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { ratingConditions } from "../constants";
+import { getRatingInfoService, getListOfStudentsService, getPageOfStudentsService, addStudentService, deleteStudentService } from "./../services/ratingService";
 
 export const getRatingInfo = createAsyncThunk(
-    "rating/getInfo",
-    async function(id, {rejectWithValue}) {
+    "rating/getRatingInfo",
+    async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/1`;
-            const response = await axios.get(url);
+            const response = await getRatingInfoService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting rating info");
 
             return response.data;
         } catch(e) {
@@ -21,13 +20,12 @@ export const getRatingInfo = createAsyncThunk(
 
 export const getListOfStudents = createAsyncThunk(
     "rating/getListOfStudents",
-    async function(id, {rejectWithValue}) {
+    async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/users`;
-            const response = await axios.get(url);
+            const response = await getListOfStudentsService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting student's list");
 
             return response.data;
         } catch(e) {
@@ -40,11 +38,10 @@ export const getPageOfStudents = createAsyncThunk(
     "rating/getPageOfStudents",
     async function(settings, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/users?_limit=${settings.limit}&_start=${(settings.page - 1) * settings.limit}`;
-            const response = await axios.get(url);
+            const response = await getPageOfStudentsService(settings);
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting student's page");
 
             return {count: response.headers["x-total-count"], data: response.data};
         } catch(e) {
@@ -55,13 +52,12 @@ export const getPageOfStudents = createAsyncThunk(
 
 export const addStudent = createAsyncThunk(
     "rating/addStudent",
-    async function(data, {rejectWithValue}) {
+    async function(student, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/users`;
-            const response = await axios.post(url, data);
+            const response = await addStudentService(student);
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error adding student");
 
             return response.data;
         } catch(e) {
@@ -72,13 +68,12 @@ export const addStudent = createAsyncThunk(
 
 export const deleteStudent = createAsyncThunk(
     "rating/addStudent",
-    async function({id}, {rejectWithValue}) {
+    async function(id, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/users`;
-            const response = await axios.post(url, id);
+            const response = await deleteStudentService(id);
 
             if( response.status !== 201 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error deleting student");
 
             return response.data;
         } catch(e) {
@@ -91,19 +86,19 @@ const ratingSlice = createSlice({
     name: "rating",
     initialState: {
         info: null,
-        statusInfo: null,
-        errorInfo: null,
+        infoStatus: null,
+        infoError: null,
 
         list: [],
-        statusList: null,
-        errorList: null,
+        listStatus: null,
+        listError: null,
 
-        countStudents: 1,
+        studentsNumber: 1,
 
         lastUpdate: null,
-        statusResult: null,
-        errorResult: null,
         result: null,
+        resultStatus: null,
+        resultError: null,
     },
 
     reducers: {
@@ -112,94 +107,92 @@ const ratingSlice = createSlice({
         },
         clearResult(state) {
             state.result = null;
-            state.errorResult = null;
-            state.statusResult = null;
+            state.resultStatus = null;
+            state.resultError = null;
         },
     },
 
     extraReducers: {
         [getRatingInfo.pending]: (state) => {
-            state.statusInfo = "pending";
-            state.errorInfo = null;
+            state.infoStatus = "pending";
+            state.infoError = null;
         },
         [getRatingInfo.fulfilled]: (state, action) => {
-            state.statusInfo = "fulfilled";
-            state.errorInfo = null;
+            state.infoStatus = "fulfilled";
+            state.infoError = null;
             state.info = action.payload;
         },
         [getRatingInfo.rejected]: (state, action) => {
-            state.statusInfo = "rejected";
-            state.errorInfo = action.payload;
+            state.infoStatus = "rejected";
+            state.infoError = action.payload;
         },
 
 
         [getListOfStudents.pending]: (state) => {
-            state.statusList = "pending";
-            state.errorList = null;
+            state.listStatus = "pending";
+            state.listError = null;
         },
         [getListOfStudents.fulfilled]: (state, action) => {
-            state.statusList = "fulfilled";
-            state.errorList = null;
+            state.listStatus = "fulfilled";
+            state.listError = null;
             state.list = action.payload;
         },
         [getListOfStudents.rejected]: (state, action) => {
-            state.statusList = "rejected";
-            state.errorList = action.payload;
+            state.listStatus = "rejected";
+            state.listError = action.payload;
         },
 
 
         [getPageOfStudents.pending]: (state) => {
-            state.statusList = "pending";
-            state.errorList = null;
+            state.listStatus = "pending";
+            state.listError = null;
         },
         [getPageOfStudents.fulfilled]: (state, action) => {
-            state.statusList = "fulfilled";
-            state.errorList = null;
+            state.listStatus = "fulfilled";
+            state.listError = null;
+
             state.list = action.payload.data;
-            state.countStudents = action.payload.count;
+            state.studentsNumber = action.payload.count;
         },
         [getPageOfStudents.rejected]: (state, action) => {
-            state.statusList = "rejected";
-            state.errorList = action.payload;
+            state.listStatus = "rejected";
+            state.listError = action.payload;
         },
 
 
         [addStudent.pending]: (state) => {
-            state.statusResult = "pending";
-            state.errorResult = null;
+            state.resultStatus = "pending";
+            state.resultError = null;
         },
         [addStudent.fulfilled]: (state, action) => {
-            state.statusResult = "fulfilled";
-            state.errorResult = null;
+            state.resultStatus = "fulfilled";
+            state.resultError = null;
             state.result = action.payload;
 
             state.lastUpdate = new Date().getTime();
         },
         [addStudent.rejected]: (state, action) => {
-            state.errorResult = "rejected";
-            state.errorList = action.payload;
+            state.resultStatus = "rejected";
+            state.resultError = action.payload;
 
             state.lastUpdate = new Date().getTime();
         },
 
 
         [deleteStudent.pending]: (state) => {
-            state.statusResult = "pending";
-            state.errorResult = null;
+            state.resultStatus = "pending";
+            state.resultError = null;
         },
         [deleteStudent.fulfilled]: (state, action) => {
-            state.statusResult = "fulfilled";
-            state.errorResult = null;
-
-            const indx = state.list.findIndex(s => s.id === action.meta.arg.id);
-            if( indx !== -1 ) state.list.splice(indx, 1);
+            state.resultStatus = "fulfilled";
+            state.resultError = null;
             state.result = action.payload;
 
             state.lastUpdate = new Date().getTime();
         },
         [deleteStudent.rejected]: (state, action) => {
-            state.errorResult = "rejected";
-            state.errorList = action.payload;
+            state.resultStatus = "rejected";
+            state.resultError = action.payload;
 
             state.lastUpdate = new Date().getTime();
         },

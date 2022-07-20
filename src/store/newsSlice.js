@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { getLastNewsService, getNewsByIdService, addNewsService, deleteNewsService } from "./../services/newsService";
 
 export const getLastNews = createAsyncThunk(
-    "news/loadLastNews",
+    "news/getLastNews",
     async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts?_start=0&_limit=8`;
-            // const url = `http://26.197.127.3:8000/add/`;
-            const response = await axios.get(url);
+            const response = await getLastNewsService();
 
             if( response.status !== 200 )
                 throw new Error("Error getting latest news");
@@ -23,11 +21,10 @@ export const getNewsById = createAsyncThunk(
     "news/getNewsById",
     async function(id, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
-            const response = await axios.get(url);
+            const response = await getNewsByIdService(id);
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error(`Error getting ${id} news`);
 
             return response.data;
         } catch(e) {
@@ -40,8 +37,10 @@ export const addNews = createAsyncThunk(
     "news/addNews",
     async function(news, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/`;
-            const response = await axios.post(url, news);
+            if( !news?.title || !news?.body )
+                throw new Error("заполните новую статью");
+
+            const response = await addNewsService(news);
 
             if( response.status !== 201 )
                 throw new Error("Error to add latest news");
@@ -57,11 +56,10 @@ export const deleteNews = createAsyncThunk(
     "news/deleteNews",
     async function(id, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/`;
-            const response = await axios.post(url, id);
+            const response = await deleteNewsService(id);
 
-            if( response.status !== 201 )
-                throw new Error("Error to add latest news");
+            if( response.status !== 200 )
+                throw new Error(`error to delete ${id} news`);
 
             return response.data;
         } catch(e) {
@@ -78,9 +76,9 @@ const newsSlice = createSlice({
         status: null,
         error: null,
 
+        result: null,
         resultStatus: null,
         resultError: null,
-        result: null,
     },
 
     reducers: {

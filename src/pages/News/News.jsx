@@ -6,11 +6,5 @@ import { AddNews } from "./AddNews/AddNews";
 export const News = () => {
     const [show, setShow] = useState(false);
 
-    return (<>
-        {
-            !show ?
-                <ViewingNews setShow={setShow} /> :
-                <AddNews setShow={setShow} />
-        }
-    </>);
+    return !show ? <ViewingNews setShow={setShow} /> : <AddNews setShow={setShow} />;
 };

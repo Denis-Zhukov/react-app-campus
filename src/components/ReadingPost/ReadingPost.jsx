@@ -25,7 +25,7 @@ export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
     }, [id, action, dispatch, resultStatus, nav, clearResult]);
 
     const [showConfirm, setShowConfirm] = useState(false);
-    const handleDeleteNews = () => dispatch(deleteAction());
+    const handleDeleteNews = () => dispatch(deleteAction(id));
 
     return (
         <Container fluid className="pt-3">
@@ -70,6 +70,11 @@ export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
                                         className={s.toolkitBtn}
                                         title="Удалить студента"
                                     ><i className="fa-solid fa-trash-can" /></button>
+                                    <button
+                                        onClick={() => setShowConfirm(true)}
+                                        className={s.toolkitBtn}
+                                        title="Удалить студента"
+                                    ><i className="fa-solid fa-arrow-right-arrow-left"></i></button>
                                     <ModalWindow
                                         show={showConfirm}
                                         setShow={setShowConfirm}

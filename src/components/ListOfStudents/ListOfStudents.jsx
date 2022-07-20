@@ -5,7 +5,7 @@ import { getListOfStudents } from "../../store/ratingSlice";
 
 export const ListOfStudents = () => {
     const dispatch = useDispatch();
-    const {list, statusList: status, errorList: error} = useSelector(state => state.rating);
+    const {list, listStatus: status, listError: error} = useSelector(state => state.rating);
     useEffect(() => {
         dispatch(getListOfStudents());
     }, [dispatch]);

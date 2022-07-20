@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { getContactsService } from "./../services/contactsService";
 
 export const getContacts = createAsyncThunk(
     "contacts/getContacts",
-    async function(id, {rejectWithValue}) {
+    async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/users`;
-            const response = await axios.get(url);
+            const response = await getContactsService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting contacts");
 
             return response.data;
         } catch(e) {

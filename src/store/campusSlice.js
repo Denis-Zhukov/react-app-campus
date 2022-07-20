@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { getSettlingCampusInfoService, getCampusImagesService, getCampusInfoService } from "./../services/campusService";
 
 export const getSettlingCampusInfo = createAsyncThunk(
     "campus/getSettlingCampusInfo",
     async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/1`;
-            const response = await axios.get(url);
+            const response = await getSettlingCampusInfoService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting settling campus info");
 
             return response.data;
         } catch(e) {
@@ -22,11 +21,10 @@ export const getCampusImages = createAsyncThunk(
     "campus/getCampusImages",
     async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/photos?_limit=9`;
-            const response = await axios.get(url);
+            const response = await getCampusImagesService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting campus images");
 
             return response.data;
         } catch(e) {
@@ -37,13 +35,12 @@ export const getCampusImages = createAsyncThunk(
 
 export const getCampusInfo = createAsyncThunk(
     "campus/getCampusInfo",
-    async function(id, {rejectWithValue}) {
+    async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/comments/${id}`;
-            const response = await axios.get(url);
+            const response = await getCampusInfoService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting campus info");
 
             return response.data;
         } catch(e) {
@@ -62,12 +59,12 @@ const campusSlice = createSlice({
         error: null,
 
         images: [],
-        statusImages: null,
-        errorImages: null,
+        imagesStatus: null,
+        imagesError: null,
 
-        campusInfo: null,
-        statusInfo: null,
-        errorInfo: null,
+        info: null,
+        infoStatus: null,
+        infoError: null,
     },
 
     extraReducers: {
@@ -87,32 +84,32 @@ const campusSlice = createSlice({
 
 
         [getCampusImages.pending]: (state) => {
-            state.statusImages = "pending";
-            state.errorImages = null;
+            state.imagesStatus = "pending";
+            state.imagesError = null;
         },
         [getCampusImages.fulfilled]: (state, action) => {
-            state.statusImages = "fulfilled";
-            state.errorImages = null;
+            state.imagesStatus = "fulfilled";
+            state.imagesError = null;
             state.images = action.payload;
         },
         [getCampusImages.rejected]: (state, action) => {
-            state.statusImages = "rejected";
-            state.errorImages = action.payload;
+            state.imagesStatus = "rejected";
+            state.imagesError = action.payload;
         },
 
 
         [getCampusInfo.pending]: (state) => {
-            state.statusInfo = "pending";
-            state.errorInfo = null;
+            state.infoStatus = "pending";
+            state.infoError = null;
         },
         [getCampusInfo.fulfilled]: (state, action) => {
-            state.statusInfo = "fulfilled";
-            state.errorInfo = null;
-            state.campusInfo = action.payload;
+            state.infoStatus = "fulfilled";
+            state.infoError = null;
+            state.info = action.payload;
         },
         [getCampusInfo.rejected]: (state, action) => {
-            state.statusInfo = "rejected";
-            state.errorInfo = action.payload;
+            state.infoStatus = "rejected";
+            state.infoError = action.payload;
         },
     },
 });

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getLastNews } from "../../../store/newsSlice";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { NewsCard } from "../Card/NewsCard";
-import s from "./../News.module.css";
+import s from "../News.module.css";
+
+import { useDispatch, useSelector } from "react-redux";
+import { getLastNews } from "../../../store/newsSlice";
 
 export const ViewingNews = ({setShow}) => {
     const {status, error, items} = useSelector(state => state.news);
@@ -16,7 +17,8 @@ export const ViewingNews = ({setShow}) => {
 
     return (
         <Container fluid className="pt-3">
-            {isAuth &&
+            {
+                isAuth &&
                 <Row className="d-flex justify-content-start">
                     <Col>
                         <button
@@ -27,7 +29,7 @@ export const ViewingNews = ({setShow}) => {
                     </Col>
                 </Row>
             }
-            <Row className>
+            <Row>
                 {
                     status === "pending" &&
                     <Col className="d-flex justify-content-center">
@@ -37,7 +39,7 @@ export const ViewingNews = ({setShow}) => {
                     </Col>
                 }
                 {
-                    status === "fulfilled" &&
+                    status === "fulfilled" && items.length !== 0 &&
                     items.map(item => (
                         <Col key={item.id} className="d-flex justify-content-center pb-3">
                             <NewsCard {...item} />
@@ -45,7 +47,7 @@ export const ViewingNews = ({setShow}) => {
                 }
 
                 {
-                    items.length === 0 && status === "fulfilled" &&
+                    status === "fulfilled" && items.length === 0 &&
                     <Alert variant="dark" key="dark" className="text-center text-light bg-dark">Новостей нет</Alert>
                 }
 

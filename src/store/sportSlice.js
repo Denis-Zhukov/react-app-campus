@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { getSportsPostsService, getSportsPostByIdService, deleteSportsPostService } from "./../services/sportsService";
 
-export const getSportPosts = createAsyncThunk(
-    "sport/getNewsById",
-    async function(id, {rejectWithValue}) {
+export const getSportsPosts = createAsyncThunk(
+    "sport/getSportPosts",
+    async function(_, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts?_limit=5`;
-            const response = await axios.get(url);
+            const response = await getSportsPostsService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error("Error getting sports posts");
 
             return response.data;
         } catch(e) {
@@ -18,15 +17,14 @@ export const getSportPosts = createAsyncThunk(
     },
 );
 
-export const getSportById = createAsyncThunk(
-    "sport/getSportById",
+export const getSportsPostById = createAsyncThunk(
+    "sport/getSportsPostById",
     async function(id, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
-            const response = await axios.get(url);
+            const response = await getSportsPostByIdService(id);
 
             if( response.status !== 200 )
-                throw new Error("Error getting latest news");
+                throw new Error(`Error getting ${id} sports post`);
 
             return response.data;
         } catch(e) {
@@ -35,15 +33,14 @@ export const getSportById = createAsyncThunk(
     },
 );
 
-export const deleteSportNews = createAsyncThunk(
-    "sport/deleteSportNews",
+export const deleteSportsPost = createAsyncThunk(
+    "sport/deleteSportsPost",
     async function(id, {rejectWithValue}) {
         try {
-            const url = `https://jsonplaceholder.typicode.com/posts/`;
-            const response = await axios.post(url, id);
+            const response = await deleteSportsPostService(id);
 
             if( response.status !== 201 )
-                throw new Error("Error getting latest news");
+                throw new Error(`Error to delete ${id} sports post`);
 
             return response.data;
         } catch(e) {
@@ -74,46 +71,46 @@ const sportSlice = createSlice({
     },
 
     extraReducers: {
-        [getSportPosts.pending]: (state) => {
+        [getSportsPosts.pending]: (state) => {
             state.status = "pending";
             state.error = null;
         },
-        [getSportPosts.fulfilled]: (state, action) => {
+        [getSportsPosts.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
             state.items = action.payload;
         },
-        [getSportPosts.rejected]: (state, action) => {
+        [getSportsPosts.rejected]: (state, action) => {
             state.status = "rejected";
             state.error = action.payload;
         },
 
 
-        [getSportById.pending]: (state) => {
+        [getSportsPostById.pending]: (state) => {
             state.status = "pending";
             state.error = null;
         },
-        [getSportById.fulfilled]: (state, action) => {
+        [getSportsPostById.fulfilled]: (state, action) => {
             state.status = "fulfilled";
             state.error = null;
             state.open = action.payload;
         },
-        [getSportById.rejected]: (state, action) => {
+        [getSportsPostById.rejected]: (state, action) => {
             state.status = "rejected";
             state.error = action.payload;
         },
 
 
-        [deleteSportNews.pending]: (state) => {
+        [deleteSportsPost.pending]: (state) => {
             state.resultStatus = "pending";
             state.resultError = null;
         },
-        [deleteSportNews.fulfilled]: (state, action) => {
+        [deleteSportsPost.fulfilled]: (state, action) => {
             state.resultStatus = "fulfilled";
             state.resultError = null;
             state.result = action.payload;
         },
-        [deleteSportNews.rejected]: (state, action) => {
+        [deleteSportsPost.rejected]: (state, action) => {
             state.resultStatus = "rejected";
             state.resultError = action.payload;
         },

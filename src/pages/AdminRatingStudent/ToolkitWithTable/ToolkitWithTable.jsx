@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Col, Container, Form, Row, Spinner, Table } from "react-bootstrap";
-import { ModalWindow } from "../../ModalWindow/ModalWindow";
-import { AddPointsForm } from "../../Forms/AddPointsForm/AddPointsForm";
+import { ModalWindow } from "../../../components/ModalWindow/ModalWindow";
+import { AddPointsForm } from "../../../components/Forms/AddPointsForm/AddPointsForm";
 import { useDispatch, useSelector } from "react-redux";
 import { getPageOfStudents, deleteStudent, clearResult } from "../../../store/ratingSlice";
 import s from "../AdminRatingStudent.module.css";
@@ -9,46 +9,64 @@ import s from "../AdminRatingStudent.module.css";
 const limit = 5;
 
 export const ToolkitWithTable = () => {
-    const [page, setPage] = useState(1);
     const dispatch = useDispatch();
-    const {list: students, countStudents, statusList: status, errorList: error, statusResult, statusError, lastUpdate} = useSelector(state => state.rating);
+    const {
+        list: students,
+        studentsNumber,
+        listStatus: status,
+        listError: error,
+        resultStatus,
+        resultError,
+        lastUpdate,
+    } = useSelector(state => state.rating);
 
+    const [page, setPage] = useState(1);
     const [showPoints, setShowPoints] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(-1);
 
     const handleDeleteStudent = useCallback(() => {
-        dispatch(deleteStudent({id: selectedStudent}));
-        const timer = setTimeout(() => {
-            dispatch(clearResult());
-        }, 5000);
-        return () => clearTimeout(timer);
+        dispatch(deleteStudent(selectedStudent));
+        setSelectedStudent(-1);
+        return () => dispatch(clearResult());
     }, [dispatch, selectedStudent]);
 
+    const handlePagination = useCallback((e) => {
+        const nextPage = e.target.value;
+        nextPage > 0 && nextPage <= Math.ceil(studentsNumber / limit) && setPage(nextPage);
+    }, [studentsNumber]);
+
     useEffect(() => {
-        const timer = setTimeout(
-            () => {
-                dispatch(getPageOfStudents({page, limit}));
-                setSelectedStudent(-1);
-            }, 750);
-        return () => clearTimeout(timer);
-    }, [page, dispatch, lastUpdate]);
+        setTimeout(() => {
+            dispatch(getPageOfStudents({page, limit}));
+            setSelectedStudent(-1);
+        }, 750);
+        return () => dispatch(clearResult());
+    }, [page, dispatch]);
 
     return (
         <>
+            {status === "pending" &&
+                <Container fluid className="d-flex justify-content-center">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </Container>
+            }
             {status === "fulfilled" &&
                 <Container fluid>
                     <Row>
-                        {statusResult === "pending" &&
+                        {resultStatus === "pending" &&
                             <Alert variant="dark" className="text-light">Отправка запроса. Не закрывайте браузер</Alert>
                         }
                         {
-                            statusResult === "fulfilled" &&
-                            <Alert variant="dark" className="text-light">Изминения внесенны</Alert>
+                            resultStatus === "fulfilled" &&
+                            <Alert variant="dark" className="text-light">Изминения внесенны
+                                                                         ({new Date(lastUpdate).toLocaleString("ru-RU")})</Alert>
                         }
                         {
-                            statusResult === "rejected" &&
-                            <Alert variant="danger">Прозашла ошибка: {statusError}</Alert>
+                            resultStatus === "rejected" &&
+                            <Alert variant="danger">Прозашла ошибка: {resultError}</Alert>
                         }
                     </Row>
                     <Row>
@@ -93,10 +111,7 @@ export const ToolkitWithTable = () => {
                             <Form.Control
                                 type="number"
                                 value={page}
-                                onChange={(e) => {
-                                    const page = e.target.value;
-                                    page > 0 && page <= Math.ceil(countStudents / limit) && setPage(+page);
-                                }}
+                                onChange={handlePagination}
                             />
                         </Col>
                     </Row>
@@ -135,13 +150,6 @@ export const ToolkitWithTable = () => {
                         errorProp="errorResult"
                         resultProp="result"
                     />
-                </Container>
-            }
-            {status === "pending" &&
-                <Container fluid className="d-flex justify-content-center">
-                    <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
                 </Container>
             }
             {status === "rejected" && <Alert variant="danger">{error}</Alert>}

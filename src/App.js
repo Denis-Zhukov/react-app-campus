@@ -6,21 +6,21 @@ import { Navbar } from "./components/Navbar/Navbar";
 
 import { News } from "./pages/News/News";
 
-import { ReadingPost } from "./components/ReadingPost/ReadingPost";
+import { ReadingPost } from "./pages/ReadingPost/ReadingPost";
 import { clearResult as clearResultNews, deleteNews, getNewsById } from "./store/newsSlice";
 import { clearResult as clearResultSport, deleteSportsPost, getSportsPostById } from "./store/sportSlice";
 import { getSettlingCampusInfo } from "./store/campusSlice";
 
 import { Sport } from "./pages/Sport/Sport";
-import { Contacts } from "./components/Contacts/Contacts";
-import { SignIn } from "./components/SignIn/SignIn";
-import { NoMatch } from "./components/NoMatch/NoMatch";
+import { Contacts } from "./pages/Contacts/Contacts";
+import { SignIn } from "./pages/SignIn/SignIn";
+import { NoMatch } from "./pages/NoMatch/NoMatch";
 
 import { Routes as Switch, Route, Navigate } from "react-router-dom";
 
 import { SignInButton } from "./components/SignInButton/SignInButton";
-import { Campus } from "./components/Campus/Campus";
-import { Rating } from "./components/Rating/Rating";
+import { Campus } from "./pages/Campus/Campus";
+import { Rating } from "./pages/Rating/Rating";
 import { ListOfRating } from "./components/ListOfRating/ListOfRating";
 import { ListOfStudents } from "./components/ListOfStudents/ListOfStudents";
 
@@ -28,7 +28,7 @@ import { navbarItems } from "./constants";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/fontawesome/css/all.min.css";
 import { useSelector } from "react-redux";
-import { AdminRatingStudent } from "./components/AdminRatingStudent/AdminRatingStudent";
+import { AdminRatingStudent } from "./pages/AdminRatingStudent/AdminRatingStudent";
 
 function App() {
     const externalSidebar = useBreakpoint(992);

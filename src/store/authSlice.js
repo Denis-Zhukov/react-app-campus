@@ -5,11 +5,12 @@ export const login = createAsyncThunk(
     "auth/login",
     async function(data, {rejectWithValue}) {
         try {
-            const response = await auth.login(data.login, data.password);
+            const response = await auth.login(data.login, data.password, data?.remember);
 
+            console.log(response);
             if( response.status === 401 )
                 throw new Error("Invalid login or password");
-            if( response.status !== 200 )
+            if( response.status !== 201 )
                 throw new Error("Error to auth");
 
             return response.data;

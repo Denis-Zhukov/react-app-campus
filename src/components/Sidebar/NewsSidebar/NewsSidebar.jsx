@@ -4,7 +4,7 @@ import { sidebarItems } from "../../../constants";
 import { NavLink } from "react-router-dom";
 
 export const NewsSidebar = () => (
-    <Accordion defaultActiveKey="0" className="dark-accordion">
+    <Accordion defaultActiveKey="0" className="dark-accordion mb-3">
         {sidebarItems.news.map((item, index) => (
             item.body ?
                 <Accordion.Item eventKey={index} key={index}>

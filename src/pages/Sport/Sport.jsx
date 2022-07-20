@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Row, Col, Container, Spinner, Alert } from "react-bootstrap";
-import { SportCard } from "./Card/SportCard";
+import { SportCard } from "../../components/Cards/SportCard/SportCard";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getSportsPosts } from "../../store/sportSlice";

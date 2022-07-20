@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
-import { NewsCard } from "../Card/NewsCard";
+import { NewsCard } from "../../../components/Cards/NewsCard/NewsCard";
 import s from "../News.module.css";
 
 import { useDispatch, useSelector } from "react-redux";

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Row, Col, Container, Spinner, Alert } from "react-bootstrap";
-import defaultImage from "./../../assets/images/news_default_image.jpg";
 import { useDispatch, useSelector } from "react-redux";
+import { ModalWindow } from "../../components/ModalWindow/ModalWindow";
+
+import defaultImage from "../../assets/images/news_default_image.jpg";
 import s from "../AdminRatingStudent/AdminRatingStudent.module.css";
-import { ModalWindow } from "../ModalWindow/ModalWindow";
 
 export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
     const {id} = useParams();
@@ -91,7 +92,6 @@ export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
                     </Row>
                 </>
             }
-
             {
                 status === "rejected" &&
                 <Row> <Alert variant="danger" key="danger" className="text-center">{error}</Alert> </Row>

@@ -38,7 +38,7 @@ export const getCampusInfo = createAsyncThunk(
     async function(_, {rejectWithValue}) {
         try {
             const response = await getCampusInfoService();
-
+            console.log(response)
             if( response.status !== 200 )
                 throw new Error("Error getting campus info");
 
@@ -65,6 +65,14 @@ const campusSlice = createSlice({
         info: null,
         infoStatus: null,
         infoError: null,
+    },
+
+    reducers: {
+        clearList(state) {
+            state.items = [];
+            state.status = null;
+            state.error = null;
+        },
     },
 
     extraReducers: {
@@ -115,3 +123,4 @@ const campusSlice = createSlice({
 });
 
 export default campusSlice.reducer;
+export const {clearList} = campusSlice.actions;

@@ -17,12 +17,12 @@ export const Campus = () => {
     const dispatch = useDispatch();
     const {
         images, statusImages, errorImages,
-        campusInfo, statusInfo, errorInfo,
+        info, infoStatus, infoError,
     } = useSelector(state => state.campus);
 
     useEffect(() => {
         dispatch(getCampusImages());
-        dispatch(getCampusInfo(15));
+        dispatch(getCampusInfo());
     }, [dispatch]);
 
     return (
@@ -32,7 +32,7 @@ export const Campus = () => {
                 <Swiper
                     lazy={true}
                     rewind={true}
-                    effect={"coverflow"}
+                    effect="coverflow"
                     grabCursor={true}
                     centeredSlides={true}
                     slidesPerView={"auto"}
@@ -56,14 +56,14 @@ export const Campus = () => {
                 </Swiper>
             </Row>
             <Row>
-                {statusInfo === "rejected" && <Alert variant="danger">{errorInfo}</Alert>}
-                {statusInfo === "pending" &&
+                {infoStatus === "rejected" && <Alert variant="danger">{infoError}</Alert>}
+                {infoStatus === "pending" &&
                     <Spinner animation="border" role="status" className="mx-auto">
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>}
 
-                <h2 className="text-center">{campusInfo?.name}</h2>
-                {campusInfo?.body.split("\n").map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+                <h2 className="text-center">{info?.name}</h2>
+                {info?.body.split("\n").map((paragraph, i) => <p key={i}>{paragraph}</p>)}
             </Row>
         </Container>
     );

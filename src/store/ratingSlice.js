@@ -56,7 +56,7 @@ export const addStudent = createAsyncThunk(
         try {
             const response = await addStudentService(student);
 
-            if( response.status !== 200 )
+            if( response.status !== 201 )
                 throw new Error("Error adding student");
 
             return response.data;
@@ -75,7 +75,7 @@ export const deleteStudent = createAsyncThunk(
             if( response.status !== 201 )
                 throw new Error("Error deleting student");
 
-            return response.data;
+            return {id, data: response.data};
         } catch(e) {
             return rejectWithValue(e.message);
         }
@@ -188,6 +188,8 @@ const ratingSlice = createSlice({
             state.resultError = null;
             state.result = action.payload;
 
+            const index = state.list.findIndex(s => s.id === action.payload.id);
+            if( index !== -1 ) state.list.splice(index, 1);
             state.lastUpdate = new Date().getTime();
         },
         [deleteStudent.rejected]: (state, action) => {

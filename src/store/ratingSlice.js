@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ratingConditions } from "../constants";
 import { getRatingInfoService, getListOfStudentsService, getPageOfStudentsService, addStudentService, deleteStudentService } from "./../services/ratingService";
+import { PENDING, FULFILLED, REJECTED } from "./statuses";
+import { ratingConditions } from "../assets/constants";
+
 
 export const getRatingInfo = createAsyncThunk(
     "rating/getRatingInfo",
@@ -114,65 +116,65 @@ const ratingSlice = createSlice({
 
     extraReducers: {
         [getRatingInfo.pending]: (state) => {
-            state.infoStatus = "pending";
+            state.infoStatus = PENDING;
             state.infoError = null;
         },
         [getRatingInfo.fulfilled]: (state, action) => {
-            state.infoStatus = "fulfilled";
+            state.infoStatus = FULFILLED;
             state.infoError = null;
             state.info = action.payload;
         },
         [getRatingInfo.rejected]: (state, action) => {
-            state.infoStatus = "rejected";
+            state.infoStatus = REJECTED;
             state.infoError = action.payload;
         },
 
 
         [getListOfStudents.pending]: (state) => {
-            state.listStatus = "pending";
+            state.listStatus = PENDING;
             state.listError = null;
         },
         [getListOfStudents.fulfilled]: (state, action) => {
-            state.listStatus = "fulfilled";
+            state.listStatus = FULFILLED;
             state.listError = null;
             state.list = action.payload;
         },
         [getListOfStudents.rejected]: (state, action) => {
-            state.listStatus = "rejected";
+            state.listStatus = REJECTED;
             state.listError = action.payload;
         },
 
 
         [getPageOfStudents.pending]: (state) => {
-            state.listStatus = "pending";
+            state.listStatus = PENDING;
             state.listError = null;
         },
         [getPageOfStudents.fulfilled]: (state, action) => {
-            state.listStatus = "fulfilled";
+            state.listStatus = FULFILLED;
             state.listError = null;
 
             state.list = action.payload.data;
             state.studentsNumber = action.payload.count;
         },
         [getPageOfStudents.rejected]: (state, action) => {
-            state.listStatus = "rejected";
+            state.listStatus = REJECTED;
             state.listError = action.payload;
         },
 
 
         [addStudent.pending]: (state) => {
-            state.resultStatus = "pending";
+            state.resultStatus = PENDING;
             state.resultError = null;
         },
         [addStudent.fulfilled]: (state, action) => {
-            state.resultStatus = "fulfilled";
+            state.resultStatus = FULFILLED;
             state.resultError = null;
             state.result = action.payload;
 
             state.lastUpdate = new Date().getTime();
         },
         [addStudent.rejected]: (state, action) => {
-            state.resultStatus = "rejected";
+            state.resultStatus = REJECTED;
             state.resultError = action.payload;
 
             state.lastUpdate = new Date().getTime();
@@ -180,11 +182,11 @@ const ratingSlice = createSlice({
 
 
         [deleteStudent.pending]: (state) => {
-            state.resultStatus = "pending";
+            state.resultStatus = PENDING;
             state.resultError = null;
         },
         [deleteStudent.fulfilled]: (state, action) => {
-            state.resultStatus = "fulfilled";
+            state.resultStatus = FULFILLED;
             state.resultError = null;
             state.result = action.payload;
 
@@ -193,7 +195,7 @@ const ratingSlice = createSlice({
             state.lastUpdate = new Date().getTime();
         },
         [deleteStudent.rejected]: (state, action) => {
-            state.resultStatus = "rejected";
+            state.resultStatus = REJECTED;
             state.resultError = action.payload;
 
             state.lastUpdate = new Date().getTime();

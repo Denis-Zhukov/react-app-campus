@@ -1,52 +1,72 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Row, Col, Container, Spinner, Alert } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { AddAndEditNews } from "../News/AddAndEditNews/AddAndEditNews";
 import { ModalWindow } from "../../components/ModalWindow/ModalWindow";
+import { useDispatch, useSelector } from "react-redux";
+import { PENDING, FULFILLED, REJECTED } from "../../store/statuses";
 
 import defaultImage from "../../assets/images/news_default_image.jpg";
 import s from "../AdminRatingStudent/AdminRatingStudent.module.css";
 
-export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
+export const ReadingPost = ({action, selector, deleteAction, editAction, clearOpenPost, clearResult}) => {
     const {id} = useParams();
-    const dispatch = useDispatch();
-    const {open: post, status, error, resultError, resultStatus} = useSelector(selector);
-    const {isAuth} = useSelector(state => state.auth);
     const nav = useNavigate();
 
+    const dispatch = useDispatch();
+    const {open: post, status, error, resultError, resultStatus, edited, deleted} = useSelector(selector);
+    const {isAuth} = useSelector(state => state.auth);
+
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+    const [showConfirmEdit, setShowConfirmEdit] = useState(false);
+    const [editablePost, setEditablePost] = useState({...post});
+
+    const handleDeletePost = () => dispatch(deleteAction(id));
+    const handleEditPost = () => dispatch(editAction());
+
+
     useEffect(() => {
+        //TODO: Эти строчки дублируются из-за того, что return выполняется не всегда. Определить почему и попробывать решить
+        dispatch(clearOpenPost());
+        clearResult && dispatch(clearResult());
         dispatch(action(id));
-        if( resultStatus === "fulfilled" ) {
-            const timer = setTimeout(() => {
-                nav("/campus/news");
-                dispatch(clearResult());
-            }, 2500);
+        return () => {
+            dispatch(clearOpenPost());
+            clearResult && dispatch(clearResult());
+        };
+    }, [dispatch, action, id, clearOpenPost, clearResult]);
+
+    useEffect(() => {
+        if( deleted ) {
+            const timer = setTimeout(() => nav("/campus/news"), 2500);
             return () => clearTimeout(timer);
         }
-    }, [id, action, dispatch, resultStatus, nav, clearResult]);
+    }, [deleted, nav]);
 
-    const [showConfirm, setShowConfirm] = useState(false);
-    const handleDeleteNews = () => dispatch(deleteAction(id));
+    useEffect(() => {
+        setEditablePost({...post});
+    }, [post]);
+
 
     return (
         <Container fluid className="pt-3">
             {
-                resultStatus === "pending" &&
+                resultStatus === PENDING &&
                 <Alert variant="dark" className="text-light">Отправка данных. Не закрывайте браузер</Alert>
             }
             {
-                resultStatus === "fulfilled" &&
+                resultStatus === FULFILLED &&
                 <Alert variant="dark" className="text-light">
-                    Запись удалена ({new Date(Date.now()).toLocaleString("ru-RU")})
+                    {deleted ? "Запись удалена" : "Запись редактирована"} ({new Date(Date.now()).toLocaleString("ru-RU")})
                 </Alert>
             }
             {
-                resultStatus === "rejected" &&
-                <Alert variant="danger">Ошибка удаление записи: {resultError}</Alert>
+                resultStatus === REJECTED &&
+                <Alert variant="danger">Ошибка {edited ? "редактирования" : "удаления"} записи: {resultError}</Alert>
             }
 
             {
-                status === "pending" &&
+                status === PENDING &&
                 <Row>
                     <Col className="d-flex justify-content-center">
                         <Spinner animation="border" role="status">
@@ -56,7 +76,7 @@ export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
                 </Row>
             }
             {
-                status === "fulfilled" &&
+                status === FULFILLED &&
                 <>
                     <Row>
                         <Col className="text-center"><h2>{post?.title}</h2></Col>
@@ -66,22 +86,38 @@ export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
                             <img src={post?.image ?? defaultImage} alt="main-img" className="w-100" />
                             {isAuth &&
                                 <>
-                                    <button
-                                        onClick={() => setShowConfirm(true)}
-                                        className={s.toolkitBtn}
-                                        title="Удалить студента"
-                                    ><i className="fa-solid fa-trash-can" /></button>
-                                    <button
-                                        onClick={() => setShowConfirm(true)}
-                                        className={s.toolkitBtn}
-                                        title="Удалить студента"
-                                    ><i className="fa-solid fa-arrow-right-arrow-left"></i></button>
+                                    {
+                                        deleteAction && <button
+                                            onClick={() => setShowConfirmDelete(true)}
+                                            className={s.toolkitBtn}
+                                            title="Удаление поста"
+                                        ><i className="fa-solid fa-trash-can" /></button>
+                                    }
+                                    {
+                                        editAction &&
+                                        <button
+                                            onClick={() => setShowConfirmEdit(true)}
+                                            className={s.toolkitBtn}
+                                            title="Редактирование поста"
+                                        ><i className="fa-solid fa-arrow-right-arrow-left"></i></button>
+                                    }
                                     <ModalWindow
-                                        show={showConfirm}
-                                        setShow={setShowConfirm}
+                                        show={showConfirmDelete}
+                                        setShow={setShowConfirmDelete}
                                         title="Вы уверены?"
                                         body="Удалить данную статью?"
-                                        handleAction={handleDeleteNews}
+                                        handleAction={handleDeletePost}
+                                    />
+
+                                    <ModalWindow
+                                        show={showConfirmEdit}
+                                        setShow={setShowConfirmEdit}
+                                        title="Редактирование"
+                                        body={<AddAndEditNews
+                                            setShow={setShowConfirmEdit}
+                                            editable={{post: editablePost, setPost: setEditablePost}}
+                                        />}
+                                        handleAction={handleEditPost}
                                     />
                                 </>
                             }
@@ -93,7 +129,7 @@ export const ReadingPost = ({action, selector, deleteAction, clearResult}) => {
                 </>
             }
             {
-                status === "rejected" &&
+                status === REJECTED &&
                 <Row> <Alert variant="danger" key="danger" className="text-center">{error}</Alert> </Row>
             }
         </Container>

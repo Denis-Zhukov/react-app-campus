@@ -1,10 +1,18 @@
+export const navbarItems = [
+    {title: "Новости", to: "/campus/news"},
+    {title: "Общежития", to: "/campus/campus_info"},
+    {title: "Рейтинг", to: "/campus/rating/ratyng_system"},
+    {title: "Контакты", to: "/campus/contacts"},
+];
+
+
 export const sidebarItems = {
     news: [
         {title: "Общие новости", to: "/campus/news"},
         {
             title: "Активности", body: [
                 {to: "/campus/activity/sport", children: "Спорт"},
-                {to: "/campus/activity/events", children: "Мероприятия"},
+                {to: "/campus/activity/event", children: "Мероприятия"},
                 {to: "/campus/activity/execution", children: "Отработки"},
             ],
         },
@@ -17,17 +25,10 @@ export const sidebarItems = {
         {title: "Рейтинговая система", to: "/campus/rating/ratyng_system"},
         {title: "Список студентов", to: "/campus/rating/ratyng_system/students"},
     ],
-    campus:[
-        {title: "Рейтинговая система", to: "/campus/admin/rating_student"}
-    ]
+    campus: [
+        {title: "Рейтинговая система", to: "/campus/admin/rating_student"},
+    ],
 };
-
-export const navbarItems = [
-    {title: "Новости", to: "/campus/news"},
-    {title: "Общежития", to: "/campus/campus_info"},
-    {title: "Рейтинг", to: "/campus/rating/ratyng_system"},
-    {title: "Контакты", to: "/campus/contacts"},
-];
 
 
 export const ratingConditions = [
@@ -62,6 +63,3 @@ export const ratingConditions = [
     {num: "29", action: "Несвоевременная плата за общежитие", points: "-20"},
     {num: "30", action: "Невыполнение требований и решений, принятых студсоветом и сотрудниками общежития", points: "-30"},
 ];
-
-
-export const urls = {};

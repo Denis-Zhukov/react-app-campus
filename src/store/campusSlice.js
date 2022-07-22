@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getSettlingCampusInfoService, getCampusImagesService, getCampusInfoService } from "./../services/campusService";
+import { PENDING, FULFILLED, REJECTED } from "./statuses";
 
-export const getSettlingCampusInfo = createAsyncThunk(
-    "campus/getSettlingCampusInfo",
+export const getCampusSettlingInfo = createAsyncThunk(
+    "campus/getCampusSettlingInfo",
     async function(_, {rejectWithValue}) {
         try {
             const response = await getSettlingCampusInfoService();
 
             if( response.status !== 200 )
-                throw new Error("Error getting settling campus info");
+                throw new Error("Error getting campus images");
 
             return response.data;
         } catch(e) {
@@ -38,7 +39,7 @@ export const getCampusInfo = createAsyncThunk(
     async function(_, {rejectWithValue}) {
         try {
             const response = await getCampusInfoService();
-            console.log(response)
+
             if( response.status !== 200 )
                 throw new Error("Error getting campus info");
 
@@ -73,54 +74,60 @@ const campusSlice = createSlice({
             state.status = null;
             state.error = null;
         },
+
+        clearOpen(state) {
+            state.open = null;
+            state.status = null;
+            state.error = null;
+        },
     },
 
     extraReducers: {
-        [getSettlingCampusInfo.pending]: (state) => {
-            state.status = "pending";
+        [getCampusSettlingInfo.pending]: (state) => {
+            state.status = PENDING;
             state.error = null;
         },
-        [getSettlingCampusInfo.fulfilled]: (state, action) => {
-            state.status = "fulfilled";
+        [getCampusSettlingInfo.fulfilled]: (state, action) => {
+            state.status = FULFILLED;
             state.error = null;
             state.open = action.payload;
         },
-        [getSettlingCampusInfo.rejected]: (state, action) => {
-            state.status = "rejected";
+        [getCampusSettlingInfo.rejected]: (state, action) => {
+            state.status = REJECTED;
             state.error = action.payload;
         },
 
 
         [getCampusImages.pending]: (state) => {
-            state.imagesStatus = "pending";
+            state.imagesStatus = PENDING;
             state.imagesError = null;
         },
         [getCampusImages.fulfilled]: (state, action) => {
-            state.imagesStatus = "fulfilled";
+            state.imagesStatus = FULFILLED;
             state.imagesError = null;
             state.images = action.payload;
         },
         [getCampusImages.rejected]: (state, action) => {
-            state.imagesStatus = "rejected";
+            state.imagesStatus = REJECTED;
             state.imagesError = action.payload;
         },
 
 
         [getCampusInfo.pending]: (state) => {
-            state.infoStatus = "pending";
+            state.infoStatus = PENDING;
             state.infoError = null;
         },
         [getCampusInfo.fulfilled]: (state, action) => {
-            state.infoStatus = "fulfilled";
+            state.infoStatus = FULFILLED;
             state.infoError = null;
             state.info = action.payload;
         },
         [getCampusInfo.rejected]: (state, action) => {
-            state.infoStatus = "rejected";
+            state.infoStatus = REJECTED;
             state.infoError = action.payload;
         },
     },
 });
 
 export default campusSlice.reducer;
-export const {clearList} = campusSlice.actions;
+export const {clearOpen} = campusSlice.actions;

@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Col, Container, Form, Row, Alert } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store/authSlice";
+import { clearStatus, login } from "../../store/authSlice";
 import s from "./SignIn.module.css";
 
 export const SignIn = () => {
@@ -17,6 +17,10 @@ export const SignIn = () => {
         e.preventDefault();
         dispatch(login({login: username, password, remember}));
     }, [username, password, remember, dispatch]);
+
+    useEffect(() => {
+        dispatch(clearStatus());
+    }, [dispatch]);
 
     return (
         <Container fluid>

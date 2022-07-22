@@ -1,16 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export const NoMatch = () => {
     let navigate = useNavigate();
 
     return (<>
-            <h1 className="text-center">Page not found</h1>
-            <button
-                className="button icon-left"
+            <h2 className="text-center">Page not found</h2>
+            <Button
+                className="button icon-left ms-md-3"
+                variant="outline-dark"
                 onClick={() => navigate(-1)}
             > Back
-            </button>
+            </Button>
         </>
     );
 };

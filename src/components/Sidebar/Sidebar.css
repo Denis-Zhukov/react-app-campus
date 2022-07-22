@@ -1,4 +1,4 @@
-.dark-accordion{
+.dark-accordion {
 	display: flex;
 	flex-direction: column;
 }
@@ -48,7 +48,7 @@
 	background: #373b3f !important;
 }
 
-.active{
+.dark-accordion .active {
 	color: white !important;
 }
 
@@ -68,7 +68,7 @@
 	margin-top: 7rem;
 }
 
-.addStudentBtn{
+.addStudentBtn {
 	border: none;
 	background: transparent;
 	font-size: 2rem;

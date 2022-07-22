@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getContactsService } from "./../services/contactsService";
+import { PENDING, FULFILLED, REJECTED } from "./statuses";
 
 export const getContacts = createAsyncThunk(
     "contacts/getContacts",
@@ -27,16 +28,16 @@ const contactsSlice = createSlice({
 
     extraReducers: {
         [getContacts.pending]: (state) => {
-            state.status = "pending";
+            state.status = PENDING;
             state.error = null;
         },
         [getContacts.fulfilled]: (state, action) => {
-            state.status = "fulfilled";
+            state.status = FULFILLED;
             state.error = null;
             state.contacts = action.payload;
         },
         [getContacts.rejected]: (state, action) => {
-            state.status = "rejected";
+            state.status = REJECTED;
             state.error = action.payload;
         },
     },

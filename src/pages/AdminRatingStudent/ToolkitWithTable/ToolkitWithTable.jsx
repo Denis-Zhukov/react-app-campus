@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Alert, Col, Container, Form, Row, Spinner, Table } from "react-bootstrap";
+import { Alert, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { ModalWindow } from "../../../components/ModalWindow/ModalWindow";
 import { AddPointsForm } from "../../../components/Forms/AddPointsForm/AddPointsForm";
 import { useDispatch, useSelector } from "react-redux";
 import { getPageOfStudents, deleteStudent, clearResult } from "../../../store/ratingSlice";
 import s from "../AdminRatingStudent.module.css";
+import { ToolkitStudentsTable } from "./ToolkitStudentsTable/ToolkitStudentsTable";
 
-const limit = 5;
+const limit = 6;
 
 export const ToolkitWithTable = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export const ToolkitWithTable = () => {
         resultError,
         lastUpdate,
     } = useSelector(state => state.rating);
+    const {authRole} = useSelector(state => state.auth);
 
     const [page, setPage] = useState(1);
     const [showPoints, setShowPoints] = useState(false);
@@ -28,7 +30,6 @@ export const ToolkitWithTable = () => {
     const handleDeleteStudent = useCallback(() => {
         dispatch(deleteStudent(selectedStudent));
         setSelectedStudent(-1);
-        return () => dispatch(clearResult());
     }, [dispatch, selectedStudent]);
 
     const handlePagination = useCallback((e) => {
@@ -37,11 +38,14 @@ export const ToolkitWithTable = () => {
     }, [studentsNumber]);
 
     useEffect(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             dispatch(getPageOfStudents({page, limit}));
             setSelectedStudent(-1);
         }, 750);
-        return () => dispatch(clearResult());
+        return () => {
+            clearTimeout(timer);
+            dispatch(clearResult());
+        };
     }, [page, dispatch]);
 
     return (
@@ -71,41 +75,10 @@ export const ToolkitWithTable = () => {
                     </Row>
                     <Row>
                         <Col xs={12} md={10}>
-                            <Table>
-                                <thead style={{background: "#212529", color: "white", fontWeight: "bold"}}>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Имя студента</th>
-                                        <th>Факультет</th>
-                                        <th>Баллы</th>
-                                        <th>Номер общежития</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {
-                                    students?.map((s, i) => (
-                                        <tr
-                                            key={s.id} onClick={(e) => {
-                                            setSelectedStudent(s.id);
-                                        }}
-                                            style={
-                                                {
-                                                    cursor: "pointer",
-                                                    color: "white",
-                                                    background: selectedStudent === s.id ? "#999" : i % 2 === 0 ? "#2c3034" : "#212529",
-                                                }
-                                            }
-                                        >
-                                            <td>{s.id}</td>
-                                            <td>{s.name}</td>
-                                            <td>{s.email}</td>
-                                            <td>{s.phone}</td>
-                                            <td>{s.website}</td>
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </Table>
+                            <ToolkitStudentsTable
+                                selectedStudent={selectedStudent}
+                                setSelectedStudent={setSelectedStudent}
+                            />
                         </Col>
                         <Col xs={12} md={2}>
                             <Form.Control
@@ -115,41 +88,49 @@ export const ToolkitWithTable = () => {
                             />
                         </Col>
                     </Row>
-                    <Row className="d-flex justify-content-end">
-                        <Col xs={1} className="text-center">
-                            <button
-                                onClick={() => setShowPoints(true)}
-                                className={s.toolkitBtn}
-                                title="Добать баллов студенту"
-                            >
-                                <i className="fa-solid fa-plus" /></button>
-                        </Col>
-                        <Col xs={1} className="text-center">
-                            <button
-                                onClick={() => setShowDelete(true)}
-                                className={s.toolkitBtn}
-                                title="Удалить студента"
-                            ><i className="fa-solid fa-trash-can" /></button>
-                        </Col>
-                        <Col xs={0} md={2}></Col>
-                    </Row>
-                    <ModalWindow
-                        show={showPoints}
-                        setShow={setShowPoints}
-                        title={selectedStudent !== -1 && students.find(s => s.id === selectedStudent)?.name}
-                        body={selectedStudent !== -1 ? <AddPointsForm /> : "Студент не выбран"}
-                    />
-                    <ModalWindow
-                        show={showDelete}
-                        setShow={setShowDelete}
-                        title={selectedStudent !== -1 && students.find(s => s.id === selectedStudent)?.name}
-                        body={selectedStudent !== -1 ? "Удалить выбранного студента?" : "Студент не выбран"}
-                        handleAction={handleDeleteStudent}
-                        selector={selectedStudent !== -1 ? (state => state.rating) : null}
-                        statusProp="statusResult"
-                        errorProp="errorResult"
-                        resultProp="result"
-                    />
+                    {
+                        authRole === "admin" &&
+                        <Row className="d-flex justify-content-end">
+                            <Col xs={1} className="text-center">
+                                <button
+                                    onClick={() => setShowPoints(true)}
+                                    className={s.toolkitBtn}
+                                    title="Добать баллов студенту"
+                                >
+                                    <i className="fa-solid fa-plus" /></button>
+                            </Col>
+                            <Col xs={1} className="text-center">
+                                <button
+                                    onClick={() => setShowDelete(true)}
+                                    className={s.toolkitBtn}
+                                    title="Удалить студента"
+                                ><i className="fa-solid fa-trash-can" /></button>
+                            </Col>
+                            <Col xs={0} md={2}></Col>
+                        </Row>
+                    }
+                    {
+                        authRole === "admin" &&
+                        <>
+                            <ModalWindow
+                                show={showPoints}
+                                setShow={setShowPoints}
+                                title={selectedStudent !== -1 && students.find(s => s.id === selectedStudent)?.name}
+                                body={selectedStudent !== -1 ? <AddPointsForm /> : "Студент не выбран"}
+                            />
+                            <ModalWindow
+                                show={showDelete}
+                                setShow={setShowDelete}
+                                title={selectedStudent !== -1 && students.find(s => s.id === selectedStudent)?.name}
+                                body={selectedStudent !== -1 ? "Удалить выбранного студента?" : "Студент не выбран"}
+                                handleAction={handleDeleteStudent}
+                                selector={selectedStudent !== -1 ? (state => state.rating) : null}
+                                statusProp="statusResult"
+                                errorProp="errorResult"
+                                resultProp="result"
+                            />
+                        </>
+                    }
                 </Container>
             }
             {status === "rejected" && <Alert variant="danger">{error}</Alert>}

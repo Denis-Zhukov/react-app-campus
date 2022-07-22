@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+
 import defaultImage from "../../../assets/images/news_default_image.jpg"
 import s from "./NewsCard.module.css";
 

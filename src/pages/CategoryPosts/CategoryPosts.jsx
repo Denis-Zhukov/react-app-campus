@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { Row, Col, Container, Spinner, Alert } from "react-bootstrap";
-import { SportCard } from "../../components/Cards/SportCard/SportCard";
+import { CategoryCard } from "../../components/Cards/CategoryCard/CategoryCard";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getSportsPosts } from "../../store/sportSlice";
+import { PENDING, FULFILLED, REJECTED } from "../../store/statuses";
 
-export const Sport = () => {
+export const CategoryPosts = ({action, selector, categoryName}) => {
     const dispatch = useDispatch();
-    const {status, error, items} = useSelector(state => state.sport);
+    const {status, error, items} = useSelector(selector);
 
     useEffect(() => {
-        dispatch(getSportsPosts());
-    }, [dispatch]);
+        dispatch(action());
+    }, [dispatch, action]);
 
     return (
         <Container fluid className="pt-3">
@@ -20,7 +20,7 @@ export const Sport = () => {
             </Row>
             <Row>
                 {
-                    status === "pending" &&
+                    status === PENDING &&
                     <Col className="d-flex justify-content-center">
                         <Spinner animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
@@ -28,20 +28,17 @@ export const Sport = () => {
                     </Col>
                 }
                 {
-                    status === "fulfilled" && items.length === 0 &&
+                    status === FULFILLED && items.length > 0 &&
+                    items.map(item => <Col key={item.id} xs={12}>
+                        <CategoryCard {...item} categoryName={categoryName} />
+                    </Col>)
+                }
+                {
+                    status === FULFILLED && items.length === 0 &&
                     <Alert variant="dark" key="dark" className="text-center text-light bg-dark">Новостей нет</Alert>
                 }
                 {
-                    status === "fulfilled" && items.length !== 0 &&
-                    items.map(item => (
-                            <Col key={item.id} xs={12}>
-                                <SportCard {...item} />
-                            </Col>
-                        ),
-                    )
-                }
-                {
-                    status === "rejected" &&
+                    status === REJECTED &&
                     <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
                 }
             </Row>

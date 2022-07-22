@@ -12,10 +12,15 @@ const sportsService = {
     async deleteSportsPostService(id) {
         return $api.post(`/posts/`, id);
     },
+
+    async editSportsPostService(post) {
+        return $api.post(`/posts/`, post);
+    },
 };
 
 export const {
     getSportsPostsService,
     getSportsPostByIdService,
     deleteSportsPostService,
+    editSportsPostService
 } = sportsService;

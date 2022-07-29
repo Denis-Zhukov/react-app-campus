@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Col, Spinner, Table } from "react-bootstrap";
 import { getListOfStudents } from "../../store/ratingSlice";
+import { PENDING, FULFILLED, REJECTED } from "../../store/statuses";
+
 
 export const ListOfStudents = () => {
     const dispatch = useDispatch();
@@ -13,7 +15,7 @@ export const ListOfStudents = () => {
     return (
         <>
             {
-                status === "pending" &&
+                status === PENDING &&
                 <Col className="d-flex justify-content-center">
                     <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
@@ -21,7 +23,7 @@ export const ListOfStudents = () => {
                 </Col>
             }
             {
-                (status === "fulfilled" || list.length !== 0) &&
+                (status === FULFILLED || list.length > 0) &&
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -45,12 +47,12 @@ export const ListOfStudents = () => {
                 </Table>
             }
             {
-                status === "rejected" &&
-                <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
+                status === FULFILLED && list.length === 0 &&
+                <Alert variant="dark" key="dark" className="text-center">Нет студентов</Alert>
             }
             {
-                status === "fulfilled" && list.length === 0 &&
-                <Alert variant="dark" key="dark" className="text-center">Нет студентов</Alert>
+                status === REJECTED &&
+                <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
             }
         </>
     );

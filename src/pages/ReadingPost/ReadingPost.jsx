@@ -26,9 +26,6 @@ export const ReadingPost = ({action, selector, deleteAction, editAction, clearOp
 
 
     useEffect(() => {
-        //TODO: Эти строчки дублируются из-за того, что return выполняется не всегда. Определить почему и попробывать решить
-        dispatch(clearOpenPost());
-        clearResult && dispatch(clearResult());
         dispatch(action(id));
         return () => {
             dispatch(clearOpenPost());
@@ -38,8 +35,7 @@ export const ReadingPost = ({action, selector, deleteAction, editAction, clearOp
 
     useEffect(() => {
         if( deleted ) {
-            const timer = setTimeout(() => nav("/campus/news"), 2500);
-            return () => clearTimeout(timer);
+            nav("/");
         }
     }, [deleted, nav]);
 

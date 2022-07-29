@@ -4,6 +4,7 @@ import { hideAddingWindow } from "../../../store/applicationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudent, clearResult } from "../../../store/ratingSlice";
 import student from "../../../assets/images/news_default_image.jpg";
+import {PENDING, FULFILLED, REJECTED} from "../../../store/statuses";
 
 export const AddingStudent = () => {
     const dispatch = useDispatch();
@@ -31,15 +32,15 @@ export const AddingStudent = () => {
         <Container fluid>
             <Row>
                 {
-                    resultStatus === "pending" &&
+                    resultStatus === PENDING &&
                     <Alert variant="dark" className="text-light">Отправа данных</Alert>
                 }
                 {
-                    resultStatus === "fulfilled" &&
+                    resultStatus === FULFILLED &&
                     <Alert variant="dark" className="text-light">Студент добавлен</Alert>
                 }
                 {
-                    resultStatus === "rejected" &&
+                    resultStatus === REJECTED &&
                     <Alert variant="danger">Ошибка добавления студента: {resultError}</Alert>
                 }
             </Row>
@@ -54,6 +55,7 @@ export const AddingStudent = () => {
                 </Col>
                 <Col xs={12} md={8}>
                     <Form>
+
                         <Form.Group controlId="nameControl" as={Row} className="mb-2">
                             <Form.Label column xs={3} className="text-end">Имя</Form.Label>
                             <Col xs={9}><Form.Control
@@ -72,7 +74,7 @@ export const AddingStudent = () => {
                             /></Col>
                         </Form.Group>
 
-                        <Form.Group controlId="idStudentControl" as={Row} className="mb-2">
+                        <Form.Group controlId="idStudentControl" as={Row} className="mb-4">
                             <Form.Label column xs={3} className="text-end">ID студента</Form.Label>
                             <Col xs={9}><Form.Control
                                 type="number"
@@ -98,10 +100,12 @@ export const AddingStudent = () => {
                                 onChange={campusHandle}
                             /></Col>
                         </Form.Group>
+
                     </Form>
                 </Col>
             </Row>
             <Row className="d-flex justify-content-center">
+
                 <Button
                     as={Col}
                     variant="dark"
@@ -109,12 +113,14 @@ export const AddingStudent = () => {
                     className="me-3"
                     onClick={handleAddStudent}
                 > Добавить </Button>
+
                 <Button
                     as={Col}
                     variant="secondary"
                     xs={3}
                     onClick={() => dispatch(hideAddingWindow())}
                 > Отмена </Button>
+
             </Row>
         </Container>
     );

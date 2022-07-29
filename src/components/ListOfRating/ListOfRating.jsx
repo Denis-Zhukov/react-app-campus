@@ -1,28 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Col, Spinner, Table } from "react-bootstrap";
-import { getRatingList } from "../../store/ratingSlice";
+import { getRatingList, clearList } from "../../store/ratingSlice";
+import { PENDING, FULFILLED, REJECTED } from "../../store/statuses";
+
 
 export const ListOfRating = () => {
     const dispatch = useDispatch();
-    const {list, statusList: status, errorList: error} = useSelector(state => state.rating);
+    const {list, listStatus: status, listError: error} = useSelector(state => state.rating);
 
     useEffect(() => {
         dispatch(getRatingList());
+        return () => dispatch(clearList());
     }, [dispatch]);
 
     return (
         <>
             {
-                status === "pending" &&
+                status === PENDING &&
                 <Col className="d-flex justify-content-center">
                     <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 </Col>
             }
+
             {
-                (status === "fulfilled" || list.length !== 0) &&
+                (status === FULFILLED || list.length > 0) &&
                 <>
                     <Table striped bordered hover>
                         <thead>
@@ -48,12 +52,12 @@ export const ListOfRating = () => {
                 </>
             }
             {
-                status === "rejected" &&
-                <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
+                status === FULFILLED && list.length === 0 &&
+                <Alert variant="dark" key="dark" className="text-center">Нет студентов</Alert>
             }
             {
-                status === "fulfilled" && list.length === 0 &&
-                <Alert variant="dark" key="dark" className="text-center">Нет студентов</Alert>
+                status === REJECTED &&
+                <Alert variant="danger" key="danger" className="text-center">{error}</Alert>
             }
         </>
     );

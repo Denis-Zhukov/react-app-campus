@@ -67,7 +67,7 @@ export const AddAndEditNews = ({setShow, editable = null}) => {
                         <FloatingLabel controlId="floatingText" label="Заголовок?">
                             <Form.Control
                                 as="input"
-                                placeholder="Leave a comment here"
+                                placeholder="Leave a title here"
                                 onChange={handleTitle}
                                 value={title}
                             />
@@ -77,7 +77,7 @@ export const AddAndEditNews = ({setShow, editable = null}) => {
                         <FloatingLabel controlId="floatingTextarea" label="Контент">
                             <Form.Control
                                 as="textarea"
-                                placeholder="Leave a comment here"
+                                placeholder="Leave a text here"
                                 style={{height: "250px", resize: "none"}}
                                 onChange={handleBody}
                                 value={body}
@@ -102,7 +102,6 @@ export const AddAndEditNews = ({setShow, editable = null}) => {
                         </Col>
                     </Row>
                 }
-
             </Form>
 
             <ModalWindow

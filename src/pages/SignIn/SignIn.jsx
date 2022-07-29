@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Col, Container, Form, Row, Alert } from "react-bootstrap";
+import { Col, Container, Form, Row, Alert, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearStatus, login } from "../../store/authSlice";
+import { login, clearStatus } from "../../store/authSlice";
+import {PENDING, FULFILLED, REJECTED} from "../../store/statuses";
 import s from "./SignIn.module.css";
 
 export const SignIn = () => {
@@ -18,22 +19,21 @@ export const SignIn = () => {
         dispatch(login({login: username, password, remember}));
     }, [username, password, remember, dispatch]);
 
-    useEffect(() => {
-        dispatch(clearStatus());
-    }, [dispatch]);
+    useEffect(() => () => dispatch(clearStatus()), [dispatch]);
+
 
     return (
         <Container fluid>
             {
-                status === "pending" &&
+                status === PENDING &&
                 <Alert variant="dark" className="text-light">Отправка данных...</Alert>
             }
             {
-                status === "fulfilled" &&
+                status === FULFILLED &&
                 <Alert variant="dark" className="text-light">Авторизация прошла успешно</Alert>
             }
             {
-                status === "rejected" &&
+                status === REJECTED &&
                 <Alert variant="danger">{error}</Alert>
             }
             <Form method="POST">
@@ -75,19 +75,18 @@ export const SignIn = () => {
                 </Form.Group>
                 <Row className="p-0 m-0">
                     <Col xs={2}></Col>
-                    <Col xs={10} className="d-flex">
+                    <Col xs={10} className="d-flex  flex-column flex-sm-row">
                         <Form.Control
                             type="submit"
                             value="Войти"
-                            className="w-50 me-2 bg-dark text-light"
+                            className="w-50 me-2 bg-dark text-light align-self-center"
                             onClick={(e) => signIn(e)}
                         />
-                        <NavLink to="/campus/registration" className={s.registrationBtn}>
-                            <Form.Control
-                                type="submit"
-                                value="Регистрация"
-                                className="w-auto m-1 bg-dark text-light"
-                            />
+                        <NavLink to="/campus/registration" className={`align-self-center ${s.registrationBtn}`}>
+                            <Button
+                                variant="outline-dark"
+                                className="w-auto m-1"
+                            >Регистрация</Button>
                         </NavLink>
                     </Col>
                 </Row>

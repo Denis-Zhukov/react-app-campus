@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Navbar } from "./components/Navbar/Navbar";
 import { navbarItems } from "./assets/constants";
@@ -27,7 +27,9 @@ import { Logout } from "./pages/Logout/Logout";
 
 import { NoMatch } from "./pages/NoMatch/NoMatch";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./store/authSlice";
+
 import { useBreakpoint } from "./hooks/useBreakpoint";
 import { Routes as Switch, Route, Navigate } from "react-router-dom";
 
@@ -42,6 +44,12 @@ function App() {
     const eventSelector = useCallback(state => state.event, []);
     const executionSelector = useCallback(state => state.execution, []);
     const campusSelector = useCallback(state => state.campus, []);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if( localStorage.getItem("token") )
+            dispatch(checkAuth());
+    }, [dispatch]);
 
 
     return (

@@ -11,10 +11,10 @@ export const Logout = () => {
 
     useEffect(() => {
         dispatch(logout());
-        nav("/campus/news");
+        nav("/");
         return () => dispatch(clearStatus());
     }, [dispatch, nav, status]);
 
-    console.error && console.error(error);
+    error && console.error(error);
     return <Container>Logout...</Container>;
 };

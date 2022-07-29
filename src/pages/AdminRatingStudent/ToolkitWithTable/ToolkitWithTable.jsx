@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPageOfStudents, deleteStudent, clearResult } from "../../../store/ratingSlice";
 import s from "../AdminRatingStudent.module.css";
 import { ToolkitStudentsTable } from "./ToolkitStudentsTable/ToolkitStudentsTable";
+import { PENDING, FULFILLED, REJECTED } from "../../../store/statuses";
 
 const limit = 6;
 
@@ -50,26 +51,26 @@ export const ToolkitWithTable = () => {
 
     return (
         <>
-            {status === "pending" &&
+            {status === PENDING &&
                 <Container fluid className="d-flex justify-content-center">
                     <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 </Container>
             }
-            {status === "fulfilled" &&
+            {status === FULFILLED &&
                 <Container fluid>
                     <Row>
-                        {resultStatus === "pending" &&
+                        {resultStatus === PENDING &&
                             <Alert variant="dark" className="text-light">Отправка запроса. Не закрывайте браузер</Alert>
                         }
                         {
-                            resultStatus === "fulfilled" &&
+                            resultStatus === FULFILLED &&
                             <Alert variant="dark" className="text-light">Изминения внесенны
                                                                          ({new Date(lastUpdate).toLocaleString("ru-RU")})</Alert>
                         }
                         {
-                            resultStatus === "rejected" &&
+                            resultStatus === REJECTED &&
                             <Alert variant="danger">Прозашла ошибка: {resultError}</Alert>
                         }
                     </Row>
@@ -133,7 +134,7 @@ export const ToolkitWithTable = () => {
                     }
                 </Container>
             }
-            {status === "rejected" && <Alert variant="danger">{error}</Alert>}
+            {status === REJECTED && <Alert variant="danger">{error}</Alert>}
         </>
     );
 };

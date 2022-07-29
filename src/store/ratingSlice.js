@@ -107,6 +107,16 @@ const ratingSlice = createSlice({
         getRatingList(state) {
             state.list = ratingConditions;
         },
+        clearInfo(state) {
+            state.info = null;
+            state.infoStatus = null;
+            state.infoError = null;
+        },
+        clearList(state) {
+            state.list = [];
+            state.listStatus = null;
+            state.listError = null;
+        },
         clearResult(state) {
             state.result = null;
             state.resultStatus = null;
@@ -204,4 +214,4 @@ const ratingSlice = createSlice({
 });
 
 export default ratingSlice.reducer;
-export const {getRatingList, clearResult} = ratingSlice.actions;
+export const {getRatingList, clearResult, clearInfo, clearList} = ratingSlice.actions;

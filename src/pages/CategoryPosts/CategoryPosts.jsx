@@ -27,16 +27,19 @@ export const CategoryPosts = ({action, selector, categoryName}) => {
                         </Spinner>
                     </Col>
                 }
+
                 {
                     status === FULFILLED && items.length > 0 &&
                     items.map(item => <Col key={item.id} xs={12}>
                         <CategoryCard {...item} categoryName={categoryName} />
                     </Col>)
                 }
+
                 {
                     status === FULFILLED && items.length === 0 &&
                     <Alert variant="dark" key="dark" className="text-center text-light bg-dark">Новостей нет</Alert>
                 }
+
                 {
                     status === REJECTED &&
                     <Alert variant="danger" key="danger" className="text-center">{error}</Alert>

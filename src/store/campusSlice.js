@@ -69,16 +69,22 @@ const campusSlice = createSlice({
     },
 
     reducers: {
-        clearList(state) {
-            state.items = [];
-            state.status = null;
-            state.error = null;
-        },
-
         clearOpen(state) {
             state.open = null;
             state.status = null;
             state.error = null;
+        },
+
+        clearImages(state) {
+            state.images = [];
+            state.imagesStatus = null;
+            state.imagesError = null;
+        },
+
+        clearInfo(state) {
+            state.info = null;
+            state.infoStatus = null;
+            state.infoError = null;
         },
     },
 
@@ -130,4 +136,4 @@ const campusSlice = createSlice({
 });
 
 export default campusSlice.reducer;
-export const {clearOpen} = campusSlice.actions;
+export const {clearOpen, clearInfo, clearImages} = campusSlice.actions;

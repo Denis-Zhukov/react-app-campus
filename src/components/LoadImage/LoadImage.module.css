@@ -1,0 +1,51 @@
+.container {
+	display: flex;
+	max-width: 300px;
+	height: 250px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	padding: 1rem;
+	border: 2px dashed black;
+}
+
+.container img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.loadIconWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.loadIcon {
+	font-size: 2rem;
+}
+
+.inputLoader {
+	cursor: pointer;
+	padding: 0.5rem 1rem;
+	color: white;
+	border-radius: 10px;
+	background: #2e2e2e;
+}
+
+.invisible {
+	display: none;
+	visibility: hidden;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.fileName {
+	max-width: 250px;
+	overflow: hidden;
+	word-wrap: normal;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

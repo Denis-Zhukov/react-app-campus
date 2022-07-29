@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Navbar } from "./components/Navbar/Navbar";
 import { navbarItems } from "./assets/constants";
@@ -23,6 +23,7 @@ import { ListOfStudents } from "./components/ListOfStudents/ListOfStudents";
 import { Contacts } from "./pages/Contacts/Contacts";
 
 import { SignIn } from "./pages/SignIn/SignIn";
+import { Registration } from "./pages/Registration/Registration";
 import { Logout } from "./pages/Logout/Logout";
 
 import { NoMatch } from "./pages/NoMatch/NoMatch";
@@ -33,6 +34,8 @@ import { checkAuth } from "./store/authSlice";
 import { useBreakpoint } from "./hooks/useBreakpoint";
 import { Routes as Switch, Route, Navigate } from "react-router-dom";
 
+
+import { LoadImage } from "./components/LoadImage/LoadImage";
 
 function App() {
     //Sidebar and SignInButton located in different blocks on different resolutions
@@ -51,6 +54,7 @@ function App() {
             dispatch(checkAuth());
     }, [dispatch]);
 
+    const stateFile = useState();
 
     return (
         <Container fluid="lg">
@@ -183,10 +187,14 @@ function App() {
                                 <Route path="/campus/signin" element={<SignIn />} />
                         }
 
+                        {/*SIGN UP*/}
+                        {<Route path="/campus/registration" element={<Registration />} />}
+
                         {/*LOGOUT*/}
-                        {
-                            isAuth && <Route path="/logout" element={<Logout />} />
-                        }
+                        {isAuth && <Route path="/logout" element={<Logout />} />}
+
+                        {/*TEST COMPONENTS*/}
+                        <Route path="/test" element={<LoadImage fileState={stateFile} />} />
 
                         {/*NO MATCH, PAGE 404*/}
                         <Route path="*" element={<NoMatch />} status={404} />

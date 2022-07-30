@@ -2,5 +2,5 @@ import React from "react";
 
 export const Registration = () => {
 
-    return 1;
+    return <p><div><p>1</p></div></p>;
 };

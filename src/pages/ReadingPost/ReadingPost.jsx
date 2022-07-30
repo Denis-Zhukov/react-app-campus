@@ -111,7 +111,7 @@ export const ReadingPost = ({action, selector, deleteAction, editAction, clearOp
                                         title="Редактирование"
                                         body={<AddAndEditNews
                                             setShow={setShowConfirmEdit}
-                                            editable={{post: editablePost, setPost: setEditablePost}}
+                                            editable={{post: editablePost, setPost: setEditablePost, loadedImage: defaultImage}}
                                         />}
                                         handleAction={handleEditPost}
                                     />

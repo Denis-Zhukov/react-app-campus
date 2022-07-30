@@ -5,8 +5,8 @@
 
 
 .card {
-	width: var(--width-card);
-	height: var(--height-card);
+	width: var(--width-card) !important;
+	height: var(--height-card) !important;
 	position: relative;
 	overflow: hidden;
 }

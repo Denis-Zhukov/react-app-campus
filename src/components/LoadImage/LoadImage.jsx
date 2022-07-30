@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./LoadImage.module.css";
 
 
-export const LoadImage = ({fileState, className}) => {
+export const LoadImage = ({fileState, className, loadedImage}) => {
+    console.log(loadedImage)
     const [drag, setDrag] = useState(false);
     const [file, setFile] = fileState;
     const [preview, setPreview] = useState();
@@ -38,6 +39,10 @@ export const LoadImage = ({fileState, className}) => {
         file && reader.readAsDataURL(file);
     };
 
+    useEffect(() => {
+        loadedImage && setPreviewImage(loadedImage);
+    }, [loadedImage]);
+
     return (
         <label
             className={`${s.container} ${className}`}
@@ -65,13 +70,14 @@ export const LoadImage = ({fileState, className}) => {
                             Выбрать изображение...
                         </label>
                     </> :
-                    <img src={preview} alt="loaded-image" />
+                    <img src={preview} alt="loaded" />
             }
             <input
                 type="file"
                 id="inputLoadImage"
                 className={s.invisible}
                 onChange={(e) => loadHandler(e)}
+                accept=".jpg,.jpeg,.png"
             />
         </label>
     );

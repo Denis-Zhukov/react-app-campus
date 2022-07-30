@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, FloatingLabel, Form, Row } from "react-bootstrap";
 import { ModalWindow } from "../../../components/ModalWindow/ModalWindow";
-import av from "../../../assets/images/news_default_image.jpg";
-import s from "../News.module.css";
+import { LoadImage } from "../../../components/LoadImage/LoadImage";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addNews, clearResult } from "../../../store/newsSlice";
 import { PENDING, FULFILLED, REJECTED } from "../../../store/statuses";
+
 
 export const AddAndEditNews = ({setShow, editable = null}) => {
     const [title, setTitle] = useState(editable?.post?.title ?? "");
@@ -15,6 +15,7 @@ export const AddAndEditNews = ({setShow, editable = null}) => {
     const dispatch = useDispatch();
     const {resultStatus, resultError} = useSelector(state => state.news);
     const [showConfirm, setShowConfirm] = useState(false);
+    const [file, setFile] = useState();
 
     const handleTitle = editable === null ? (e) => setTitle(e.target.value) :
         (e) => {
@@ -29,8 +30,8 @@ export const AddAndEditNews = ({setShow, editable = null}) => {
         };
 
     const handleAddNews = useCallback(() => {
-        dispatch(addNews({id: editable?.post?.id ?? undefined, title, body}));
-    }, [title, body, dispatch, editable?.post?.id]);
+        dispatch(addNews({id: editable?.post?.id ?? undefined, title, body, file}));
+    }, [title, body, dispatch, editable?.post?.id, file]);
 
     useEffect(() => {
         dispatch(clearResult());
@@ -59,7 +60,7 @@ export const AddAndEditNews = ({setShow, editable = null}) => {
             <Form method="POST">
                 <Row className="mb-3">
                     <Col className="d-flex justify-content-center">
-                        <img src={av} alt="av" className={s.avatarNews} />
+                        <LoadImage fileState={[file, setFile]}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">

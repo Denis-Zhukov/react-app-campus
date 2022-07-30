@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Navbar } from "./components/Navbar/Navbar";
 import { navbarItems } from "./assets/constants";
@@ -35,8 +35,6 @@ import { useBreakpoint } from "./hooks/useBreakpoint";
 import { Routes as Switch, Route, Navigate } from "react-router-dom";
 
 
-import { LoadImage } from "./components/LoadImage/LoadImage";
-
 function App() {
     //Sidebar and SignInButton located in different blocks on different resolutions
     const externalSidebar = useBreakpoint(992);
@@ -54,7 +52,6 @@ function App() {
             dispatch(checkAuth());
     }, [dispatch]);
 
-    const stateFile = useState();
 
     return (
         <Container fluid="lg">
@@ -192,9 +189,6 @@ function App() {
 
                         {/*LOGOUT*/}
                         {isAuth && <Route path="/logout" element={<Logout />} />}
-
-                        {/*TEST COMPONENTS*/}
-                        <Route path="/test" element={<LoadImage fileState={stateFile} />} />
 
                         {/*NO MATCH, PAGE 404*/}
                         <Route path="*" element={<NoMatch />} status={404} />
